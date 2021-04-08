@@ -1,0 +1,1 @@
+web: gunicorn stockscompany.wsgi --log-file -
