@@ -11,7 +11,7 @@ def index(request):
         latest_company_list_sort = []
         for company in latest_company_list:
             latest_company_list_sort.append(company.efficiency_level)
-        latest_company_list_sort_laster = latest_company_list_sort.sort()
+        latest_company_list_sort_laster = latest_company_list_sort.sort
         latest_companys = []
         for company in latest_company_list:
             for company in latest_company_list:
@@ -19,6 +19,7 @@ def index(request):
                     if (company.efficiency_level == latest_company_list_sort_laster[0]):
                         latest_companys.append(company)
                         del latest_company_list_sort_laster[0]
+            
         template = loader.get_template('stocks/index.html')
         context = {
             'latest_company_list': latest_companys,
