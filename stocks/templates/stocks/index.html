@@ -68,7 +68,7 @@ section::after {
 	  <div class="form-group row">
 	    <label class="col-sm-2 col-form-label">Vốn công ty</label>
 	    <div class="col-sm-7">
-	      <input type="text" class="form-control" id="company_cap" name="company_cap" placeholder="Nhập số vốn công ty">
+	      <input type="text" class="form-control" id="company_cap" name="company_cap" value="{{company_capital_view}}" placeholder="Nhập số vốn công ty">
 	    </div>
 	    <div class="col-sm-3">
 	      <label>Tỷ VNĐ</label>
@@ -78,7 +78,7 @@ section::after {
 	  <div class="form-group row">
 	    <label class="col-sm-2 col-form-label">Số record</label>
 	    <div class="col-sm-7">
-	      <input type="text" class="form-control" id="count" name="count" placeholder="Nhập số record">
+	      <input type="text" class="form-control" id="count" name="count" value="{{count_record_view}}" placeholder="Nhập số record">
 	    </div>
 	    <div class="col-sm-3">
 	      <label>Công ty</label>
@@ -92,6 +92,10 @@ section::after {
 	      <button type="submit" class="btn btn-primary" style = "background: #5c9616">Tìm kiếm</button>
 	    </div>
 	  </div>
+      <div style="font-size: 20px; color: #f81919;"  >
+        {{ message }}
+        {{ message2 }}
+      </div>
 	</form>
 </header>
 <table class="table table-striped">
@@ -110,7 +114,7 @@ section::after {
   <tbody>
     {% if latest_company_list %}
         {% for company in latest_company_list %}
-            {% if company.id == 1  %}
+            {% if company.id == 2  %}
                 <tr>
                     <td scope="row">{{company.id}}</td>
                     <td>{{company.stocks}}</td>
