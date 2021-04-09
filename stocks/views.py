@@ -7,20 +7,11 @@ from .models import Company
  
 def index(request):
     try:
-        latest_company_list = Company.objects.order_by('efficiency_level')
-        # latest_companys=latest_company_list
-        # latest_company_list_sort = []
-        # for company in latest_company_list:
-        #     latest_company_list_sort.append(company.efficiency_level)
-        # latest_company_list_sort_laster = latest_company_list_sort.sort()
-        # for company in latest_company_list:
-        #     for company in latest_company_list:
-        #         if (latest_company_list_sort_laster != []) :
-        #             if (company.efficiency_level == latest_company_list_sort_laster[0]):
-        #                 latest_companys.append(company)
-        #                 del latest_company_list_sort_laster[0]
-            
+        latest_company_list_view = Company.objects.order_by('efficiency_level')
+        latest_company_list = latest_company_list_view.reverse()    
         template = loader.get_template('stocks/index.html')
+        for index in range(len(latest_company_list)):
+            latest_company_list[index].id=index+1
         context = {
             'latest_company_list': latest_company_list,
         }  
@@ -34,23 +25,33 @@ def search(request):
         count = request.POST['count']
         company_capital_view=''
         count_record_view=''
+        latest_company_list_view = []
+        latest_company_list = []
         if (company_capital != ""):
             company_capital_view=company_capital
             if (count !=""):
                 count_record_view=count
                 count_record = int(count)
-                latest_company_list = Company.objects.filter(company_cap=company_capital)[:count_record]
+                latest_company_list_view = Company.objects.filter(company_cap=company_capital).order_by('efficiency_level')[:count_record]
             else:
-                latest_company_list = Company.objects.filter(company_cap=company_capital)
+                latest_company_list_view = Company.objects.filter(company_cap=company_capital).order_by('efficiency_level')
         else:
             if (count !=""):
                 count_record = int(count)
                 count_record_view=count
-                latest_company_list = Company.objects.all()[:count_record]
+                latest_company_list_view = Company.objects.all().order_by('efficiency_level')[:count_record]
             else:
-                latest_company_list = Company.objects.all()
+                latest_company_list_view = Company.objects.all().order_by('efficiency_level')
+        list_tmp = []
+        for company in latest_company_list_view:
+            list_tmp = [company]
+            latest_company_list = list_tmp + latest_company_list
+        for index in range(len(latest_company_list)):
+            latest_company_list[index].id=index+1
+        len_company = len(latest_company_list)
         template = loader.get_template('stocks/index.html')
         context = {
+            'len_company': len_company,
             'count_record_view': count_record_view,
             'company_capital_view': company_capital,
             'latest_company_list': latest_company_list,
