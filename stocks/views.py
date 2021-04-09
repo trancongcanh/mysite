@@ -7,7 +7,7 @@ from .models import Company
  
 def index(request):
     try:
-        latest_company_list = Company.objects.all()
+        latest_company_list = Company.objects.order_by('efficiency_level')
         # latest_companys=latest_company_list
         # latest_company_list_sort = []
         # for company in latest_company_list:
@@ -65,13 +65,13 @@ def search(request):
             try:
                 company_capital_view = int(company_capital)
             except ValueError:
-                message = "Von cong ty chi chua so half size."
+                message = "Vốn công ty chỉ chứa số half size."
         if (count !=""):
             count_record_view = count  
             try:
                 count_record = int(count)
             except ValueError:
-                message2 = "So record chi chua so half size."
+                message2 = "Số record chỉ chứa số half size."
         latest_company_list=[]
         template = loader.get_template('stocks/index.html')
         context = {
