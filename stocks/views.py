@@ -3,15 +3,15 @@ from django.shortcuts import render, get_object_or_404
 from django.template import loader
 from django.urls import reverse
 
-
 from .models import Company
  
 def index(request):
     try:
         latest_company_list = Company.objects.all()
+        sorted_efficiency_level = sorted(latest_company_list, key=lamda company:company.efficiency_level)
         template = loader.get_template('stocks/index.html')
         context = {
-            'latest_company_list': latest_company_list,
+            'latest_company_list': sorted_efficiency_level,
         }  
     except Company.DoesNotExist:
         raise Http404('Company does not exist')
