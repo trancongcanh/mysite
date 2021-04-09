@@ -8,10 +8,19 @@ from .models import Company
 def index(request):
     try:
         latest_company_list = Company.objects.all()
-        sorted_efficiency_level = sorted(latest_company_list, key=lamda company:company.efficiency_level)
+        latest_company_list_sort = []
+        for company in latest_company_list:
+            latest_company_list_sort.append(company.efficiency_level)
+        latest_company_list_sort_laster = latest_company_list_sort.sort()
+        latest_companys = []
+        for company in latest_company_list:
+            for company in latest_company_list:
+                if (company.efficiency_level == latest_company_list_sort_laster[0]):
+                    latest_companys.append(company)
+                    latest_company_list_sort_laster.pop(0)
         template = loader.get_template('stocks/index.html')
         context = {
-            'latest_company_list': sorted_efficiency_level,
+            'latest_company_list': latest_companys,
         }  
     except Company.DoesNotExist:
         raise Http404('Company does not exist')
