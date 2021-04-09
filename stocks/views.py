@@ -15,9 +15,10 @@ def index(request):
         latest_companys = []
         for company in latest_company_list:
             for company in latest_company_list:
-                if (company.efficiency_level == latest_company_list_sort_laster(0)):
-                    latest_companys.append(company)
-                    latest_company_list_sort_laster.pop(0)
+                if latest_company_list_sort_laster :
+                    if (company.efficiency_level == latest_company_list_sort_laster[0]):
+                        latest_companys.append(company)
+                        del latest_company_list_sort_laster[0]
         template = loader.get_template('stocks/index.html')
         context = {
             'latest_company_list': latest_companys,
