@@ -5,7 +5,12 @@
 <title>Stocks Company</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+
 <style>
 * {
   box-sizing: border-box;
@@ -20,12 +25,12 @@ header {
   background-color: #1b62a9	;
   padding: 30px;
   /*text-align: center;*/
-  font-size: 30px;
+  font-size: 20px;
   color: white;
 }
 
 table {
-	font-size: 20px;
+	font-size: 15px;
 	padding: 25px;
 }
 
@@ -84,6 +89,18 @@ section::after {
 	      <label>Công ty</label>
 	    </div>
 	  </div>
+	    <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Ngày tìm kiếm</label>
+            <div class="col-sm-7">
+                <input id="datepicker" width="270" />
+                <script>
+                    $('#datepicker').datepicker({
+                        uiLibrary: 'bootstrap'
+                    });
+                </script>
+            </div>
+        </div>
+
 
 	  <div class="form-group row">
 	  	<div class="col-sm-2">

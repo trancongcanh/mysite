@@ -8,5 +8,6 @@ class Company(models.Model):
     r_o_a = models.IntegerField(default=0)
     p_e = models.IntegerField(default=0)
     efficiency_level = models.IntegerField(default=0)
+    date_update = models.DateField(null=True, blank=True)
     # def __str__(self):
     #     return self.company_name
