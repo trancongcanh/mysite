@@ -32,8 +32,7 @@ def search(request):
         latest_company_list = []
         date_update_view = ""
         date_update_view_list = date_update.split("/")
-
-        date_update_view = date_update[2] + "-" + date_update[0] + "-" + date_update[1]
+        date_update_view = date_update_view_list[2] + "-" + date_update_view_list[1] + "-" + date_update_view_list[0]
         date_update_view = datetime.strptime(date_update_view, "%Y-%m-%d")
         if (date_update != ""):
             if (company_capital != ""):
@@ -102,9 +101,11 @@ def search(request):
             except ValueError:
                 message2 = "Số record chỉ chứa số half size."
         if (date_update !=""):
-            date_update_view_error = date_update  
             try:
-                date_update_view_error = datetime.strptime(date_update_view, "%Y-%m-%d")
+                date_update_view = ""
+                date_update_view_list = date_update.split("/")
+                date_update_view = date_update_view_list[2] + "-" + date_update_view_list[1] + "-" + date_update_view_list[0]
+                date_update_view = datetime.strptime(date_update_view, "%Y-%m-%d")
             except ValueError:
                 message3 = "Ngày tìm kiếm sai định dạng."        
         latest_company_list=[]
