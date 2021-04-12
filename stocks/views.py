@@ -31,8 +31,11 @@ def search(request):
         latest_company_list_view = []
         latest_company_list = []
         date_update_view = ""
-        date_update_view_list = date_update.split("/")
-        date_update_view = date_update_view_list[2] + "-" + date_update_view_list[1] + "-" + date_update_view_list[0]
+        if (date_update != ""):
+            date_update_view_list = date_update.split("/")
+            for index in date_update_view_list:
+                if (index == 0) :
+                    date_update_view = date_update_view_list[index] + "-" + date_update_view
         date_update_view = datetime.strptime(date_update_view, "%Y-%m-%d")
         if (date_update != ""):
             if (company_capital != ""):
@@ -103,8 +106,11 @@ def search(request):
         if (date_update !=""):
             try:
                 date_update_view = ""
-                date_update_view_list = date_update.split("/")
-                date_update_view = date_update_view_list[2] + "-" + date_update_view_list[1] + "-" + date_update_view_list[0]
+                if (date_update != ""):
+                    date_update_view_list = date_update.split("/")
+                    for index in date_update_view_list:
+                        if (index == 0) :
+                            date_update_view = date_update_view_list[index] + "-" + date_update_view
                 date_update_view = datetime.strptime(date_update_view, "%Y-%m-%d")
             except ValueError:
                 message3 = "Ngày tìm kiếm sai định dạng."        
