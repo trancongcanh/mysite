@@ -32,11 +32,8 @@ def search(request):
         latest_company_list = []
         date_update_view = ""
         date_update_view_list = date_update.split("/")
-        for index in range(len(date_update_view_list)):
-            if index != 0 :
-                date_update_view = date_update_view_list[index] + "-" + date_update_view
-            else: 
-                date_update_view = date_update_view_list[index] + date_update_view
+
+        date_update_view = date_update[2] + "-" + date_update[0] + "-" + date_update[1]
         date_update_view = datetime.strptime(date_update_view, "%Y-%m-%d")
         if (date_update != ""):
             if (company_capital != ""):
