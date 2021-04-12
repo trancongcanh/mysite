@@ -91,6 +91,7 @@ def search(request):
     except ValueError:
         message = ''
         message2 = ''
+        message3 = ''
         if (company_capital != ""):
             company_capital_view = company_capital
             try:
