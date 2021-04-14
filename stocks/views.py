@@ -28,8 +28,8 @@ def search(request):
         count_company = request.POST['count_company']
         date_update = request.POST['date_update']
         # Khởi tạo biến và danh sách
-        latest_company_list_view = []
         latest_company_list = []
+        latest_company_list_view = []
         date_update_view = ""
         # Validate dữ liệu từ request
         if (date_update != ""):
@@ -46,27 +46,27 @@ def search(request):
         if (company_capital != ""):
             company_capital_validate = int(company_capital)
         # Xử lí các trường hợp với các điều kiện tìm kiếm tương ứng
-        if (date_update != "" and company_capital != "" and count_company !=""):
-            latest_company_list_view = Company.objects.filter(company_cap=company_capital_validate, date_update=date_update_view).order_by('-efficiency_level')[:count_record]
-        elif (date_update != "" and company_capital != "" and count_company ==""):
-            latest_company_list_view = Company.objects.filter(company_cap=company_capital, date_update=date_update_view).order_by('-efficiency_level')
-        elif (date_update != "" and company_capital == "" and count_company !=""):
-            latest_company_list_view = Company.objects.filter(date_update=date_update_view).order_by('-efficiency_level')[:count_record]
-        elif (date_update != "" and company_capital == "" and count_company ==""):
-            latest_company_list_view = Company.objects.filter(date_update=date_update_view).order_by('-efficiency_level')
-        elif (date_update == "" and company_capital != "" and count_company !=""):
-            latest_company_list_view = Company.objects.filter(company_cap=company_capital).order_by('-efficiency_level')[:count_record]
-        elif (date_update == "" and company_capital != "" and count_company ==""):
-            latest_company_list_view = Company.objects.filter(company_cap=company_capital, date_update=date_update_view).order_by('-efficiency_level')
-        elif (date_update == "" and company_capital == "" and count_company !=""):
-            latest_company_list_view = Company.objects.all().order_by('-efficiency_level')[:count_record]
-        elif (date_update == "" and company_capital == "" and count_company ==""):
-            latest_company_list_view = Company.objects.all().order_by('-efficiency_level')
+        if (date_update != "" and count_company !=""):
+            latest_company_list = Company.objects.filter(date_update=date_update_view).order_by('-efficiency_level')[:count_record]
+        elif (date_update != "" and count_company ==""):
+            latest_company_list = Company.objects.filter(date_update=date_update_view).order_by('-efficiency_level')
+        elif (date_update == "" and count_company !=""):
+            latest_company_list = Company.objects.all().order_by('-efficiency_level')[:count_record]
+        elif (date_update == "" and count_company ==""):
+            latest_company_list = Company.objects.all().order_by('-efficiency_level')
+
+        # Tìm kiếm với vốn công ty lớn hơn vốn công ty(nếu có) lấy được từ request 
+        if (company_capital != ""): 
+            for company in latest_company_list :
+                if (int(company.company_cap) >= company_capital_validate):
+                    latest_company_list_view.append(company)
+        else:
+            latest_company_list_view = latest_company_list
         # Duyệt các chỉ số hiển thị của mỗi record
         for index in range(len(latest_company_list_view)):
             latest_company_list_view[index].id=index+1
         # Lấy ra số lượng thực tế các công ty thỏa mãn điều kiện tìm kiếm
-        len_company = len(latest_company_list)
+        len_company = len(latest_company_list_view)
         # Get ra template theo đường dẫn tương ứng để set hiển thị
         template = loader.get_template('stocks/index.html')
         # Tạo 1 Dictionary đưa lên template hiển thị 
@@ -112,7 +112,7 @@ def search(request):
             except ValueError:
                 message3 = "Ngày tìm kiếm sai định dạng." 
         # Do điều kiện tìm kiếm sai format nên khởi tạo 1 danh sách rỗng để hiển thị    
-        latest_company_list=[]
+        latest_company_list_view=[]
         # Get ra template theo đường dẫn tương ứng để set hiển thị
         template = loader.get_template('stocks/index.html')
         # Tạo 1 Dictionary đưa lên template hiển thị 
@@ -123,7 +123,7 @@ def search(request):
                     'message': message,
                     'message2': message2,
                     'message3': message3,
-                    'latest_company_list': latest_company_list,
+                    'latest_company_list': latest_company_list_view,
                 }
 
     # Trả về dữ liệu hiển thị trên tempalte
