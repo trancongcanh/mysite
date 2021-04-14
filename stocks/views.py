@@ -27,36 +27,28 @@ def search(request):
         company_capital = request.POST['company_cap']
         count_company = request.POST['count_company']
         date_update = request.POST['date_update']
-        # Khởi tạo biến và danh sách
+        # Khởi tạo danh sách công ty
         latest_company_list = []
         latest_company_list_view = []
-        date_update_view = ""
-        # Validate dữ liệu từ request
-        if (date_update != ""):
-            date_update_view_list = []
-            date_update_view_list = date_update.split("/")
-            for index in range(len(date_update_view_list)):
-                if (index == 0) :
-                    date_update_view = str(date_update_view_list[index])
-                else:
-                    date_update_view = str(date_update_view_list[index]) + "-" + date_update_view
-            date_update_view = datetime.strptime(date_update_view, "%Y-%m-%d")
-        if (count_company != ""): 
-            count_record = int(count_company)
-        if (company_capital != ""):
-            company_capital_validate = int(company_capital)
-        # Xử lí các trường hợp với các điều kiện tìm kiếm tương ứng
+        # Thay đổi format date lấy từ form để thực hiện get data từ Db
+        date_update_change_format = change_format_date_update(date_update)
+        # Xử lí các trường hợp với các điều kiện tìm kiếm tương ứng có hoặc không có ngày tìm kiếm, số record
         if (date_update != "" and count_company !=""):
+            date_update_view = datetime.strptime(date_update_change_format, "%Y-%m-%d")
+            count_record = int(count_company)
             latest_company_list = Company.objects.filter(date_update=date_update_view).order_by('-efficiency_level')[:count_record]
         elif (date_update != "" and count_company ==""):
+            date_update_view = datetime.strptime(date_update_change_format, "%Y-%m-%d")
             latest_company_list = Company.objects.filter(date_update=date_update_view).order_by('-efficiency_level')
         elif (date_update == "" and count_company !=""):
+            count_record = int(count_company)
             latest_company_list = Company.objects.all().order_by('-efficiency_level')[:count_record]
         elif (date_update == "" and count_company ==""):
             latest_company_list = Company.objects.all().order_by('-efficiency_level')
 
         # Tìm kiếm với công ty có số vốn lớn hơn vốn công ty(nếu có) lấy được từ request 
-        if (company_capital != ""): 
+        if (company_capital != ""):
+            company_capital_validate = int(company_capital) 
             for company in latest_company_list :
                 if (int(company.company_cap) >= company_capital_validate):
                     latest_company_list_view.append(company)
@@ -79,12 +71,12 @@ def search(request):
         }
     except (KeyError, Company.DoesNotExist):
         raise Http404('Company does not exist')
-    # Xử lí validate dữ liệu tìm kiếm từ form
+    # Xử lí thông báo lỗi khi dữ liệu tìm kiếm từ form sai format
     except ValueError:
         message = ''
         message2 = ''
         message3 = ''
-        # Validate lỗi nhập điều kiện tìm kiếm theo vốn công ty
+        # Validate khi nhập điều kiện tìm kiếm theo vốn công ty
         if (company_capital != ""):
             try:
                 int(company_capital)
@@ -96,19 +88,10 @@ def search(request):
                 int(count_company)
             except ValueError:
                 message2 = "Số record chỉ chứa số half size."
-        # Validate khi nhập điều kiện tìm kiếm ngày cập nhật công ty sai định dạng
+        # Validate khi nhập điều kiện tìm kiếm ngày cập nhật công ty
         if (date_update !=""):
             try:
-                date_update_view = ""
-                if (date_update != ""):
-                    date_update_view_list = []
-                    date_update_view_list = date_update.split("/")
-                    for index in range(len(date_update_view_list)):
-                        if (index == 0) :
-                            date_update_view = str(date_update_view_list[index])
-                        else:
-                            date_update_view = str(date_update_view_list[index]) + "-" + date_update_view
-                date_update_view = datetime.strptime(date_update_view, "%Y-%m-%d")
+                date_update_view = datetime.strptime(change_format_date_update(date_update), "%Y-%m-%d")
             except ValueError:
                 message3 = "Ngày tìm kiếm sai định dạng." 
         # Do điều kiện tìm kiếm sai format nên khởi tạo 1 danh sách rỗng để hiển thị    
@@ -128,3 +111,16 @@ def search(request):
 
     # Trả về dữ liệu hiển thị trên tempalte
     return HttpResponse(template.render(context, request))
+
+# Thay đổi format date từ dd/mm/yyyy --> yyyy-mm-dd
+def change_format_date_update(date_update):
+    date_update_view = ""
+    date_update_view_list = date_update.split("/")
+    if (date_update != ""):
+        for index in range(len(date_update_view_list)):
+            if (index == 0) :
+                date_update_view = str(date_update_view_list[index])
+            else:
+                date_update_view = str(date_update_view_list[index]) + "-" + date_update_view
+    return date_update_view
+
