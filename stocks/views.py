@@ -1,10 +1,10 @@
 from django.http import HttpResponse, Http404, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.template import loader
 from django.urls import reverse
 from datetime import datetime
 from .models import Company
-
+from django.contrib.auth import authenticate
 # Xử lí hiển thị MH danh sách công ty
 def index(request):
     try:
