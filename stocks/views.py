@@ -55,7 +55,7 @@ def search(request):
         elif (date_update == "" and count_company ==""):
             latest_company_list = Company.objects.all().order_by('-efficiency_level')
 
-        # Tìm kiếm với vốn công ty lớn hơn vốn công ty(nếu có) lấy được từ request 
+        # Tìm kiếm với công ty có số vốn lớn hơn vốn công ty(nếu có) lấy được từ request 
         if (company_capital != ""): 
             for company in latest_company_list :
                 if (int(company.company_cap) >= company_capital_validate):

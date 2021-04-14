@@ -87,8 +87,11 @@ header {
 <body>
 <header>
   <div class="container">
+<!-- Form tìm kiếm -->
   <form action="{% url 'stocks:search' %}" method="POST">
+    <!-- Phòng chống csrf -->
     {% csrf_token %}
+    <!-- Tìm kiếm theo vốn công ty -->
 	  <div class="form-group row">
 	    <label class="col-sm-2 col-xs-4 col-form-label">Vốn công ty</label>
 	    <div class="col-sm-7 col-xs-5">
@@ -98,7 +101,7 @@ header {
 	      <label>Tỷ VNĐ</label>
 	    </div>
 	  </div>
-
+    <!-- Số lượng cty muốn tìm kiếm -->
 	  <div class="form-group row">
 	    <label class="col-sm-2 col-xs-4 col-form-label">Số record</label>
 	    <div class="col-sm-7 col-xs-5">
@@ -108,6 +111,7 @@ header {
 	      <label>Công ty</label>
 	    </div>
 	  </div>
+    <!-- Tìm kiếm theo ngày cập nhật -->
 	    <div class="form-group row">
             <label class="col-sm-2 col-xs-4 col-form-label">Ngày tìm kiếm</label>
             <div class="col-sm-3 col-xs-5">
@@ -120,8 +124,7 @@ header {
                 </script>
             </div>
         </div>
-
-
+    <!-- Button tìm  kiếm -->
 	  <div class="form-group row">
 	  	<div class="col-sm-2 col-xs-4">
 	    </div>
@@ -129,6 +132,7 @@ header {
 	      <button type="submit" class="btn btn-primary" style = "background: #5c9616">Tìm kiếm</button>
 	    </div>
 	  </div>
+    <!-- Vùng thông báo lỗi -->
       <div style="font-size: 20px; color: #f81919;"  >
         {{ message }}
         {{ message2 }}
@@ -138,6 +142,7 @@ header {
 </div>
 </header>
 <div id = "table">
+<!-- Danh sách công ty -->
   <table class="table table-bordered table-striped">
     <thead>
       <tr style = "background: #5c9616">
