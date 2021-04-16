@@ -83,15 +83,7 @@ def search(request):
             company_list = company_list_db
         # Tạo danh sách đối tượng company mới có thuộc tính index để hiển thị STT table
         for company in company_list:
-            company_view = CompanyView()
-            company_view.stocks = company.stocks
-            company_view.company_cap = company.company_cap
-            company_view.efficiency_level = company.efficiency_level
-            company_view.company_name = company.company_name
-            company_view.current_price = company.current_price
-            company_view.date_update = company.date_update
-            company_view.p_e = company.p_e
-            company_view.r_o_a = company.r_o_a
+            company_view = CompanyView(0, company.stocks, company.company_name, company.company_cap, company.current_price, company.r_o_a, company.p_e, company.efficiency_level, company.date_update)
             company_list_view.append(company_view)
         # Duyệt các chỉ số hiển thị của mỗi record
         for index in range(len(company_list_view)):
