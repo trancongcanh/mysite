@@ -2,7 +2,7 @@ from django.db import models
 #Tạo bảng các công ty và các thuộc tính tương ứng
 class Company(models.Model):
     # Mã cổ phiếu	
-    stocks = models.CharField(max_length=10)
+    stocks = models.CharField(max_length=10, primary_key=True)
     # Tên công  ty
     company_name = models.CharField(max_length=70)
     # Vốn công ty

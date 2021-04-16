@@ -6,4 +6,5 @@ app_name = "stocks"
 urlpatterns = [ 
     url(r'^$', views.index, name='index'),
     url(r'^search/', views.search, name='search'),
+    url(r'^upload-csv/', views.profile_upload, name="profile_upload"),
 ]

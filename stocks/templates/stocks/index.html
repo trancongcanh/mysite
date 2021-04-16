@@ -157,8 +157,8 @@ header {
       </tr>
     </thead>
     <tbody>
-      {% if latest_company_list %}
-          {% for company in latest_company_list %}
+      {% if company_list_view %}
+          {% for company in company_list_view %}
               {% if len_company == 1  %}
                   <tr>
                       <td scope="row">{{company.id}}</td>
