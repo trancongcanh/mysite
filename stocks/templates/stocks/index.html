@@ -82,38 +82,53 @@ header {
     font-size: 90%;
 }
 }
+.right {
+    float: right;
+  }
 </style>
 </head>
 <body>
 <header>
   <div class="container">
-<!-- Form tìm kiếm -->
-  <form action="{% url 'stocks:search' %}" method="POST">
+    <!-- Form tìm kiếm -->
+    <form action="{% url 'stocks:search' %}" method="POST">
     <!-- Phòng chống csrf -->
     {% csrf_token %}
+    <div class="form-group row">
+        <div class="right" >
+            <div class="col-sm-15">
+                {% if user.username %}
+                    <p><button type="" class="btn btn-primary" style = "background: #5c9616">Logout</button></p>
+                    <b style = "color: #d80505">Hi, {{user.username}}</b>
+                {% else %}
+                    <p><a href="/" url 'register' %}">Sign In</a>|<a href="/" url 'login' %}">Login</a></p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
     <!-- Tìm kiếm theo vốn công ty -->
 	  <div class="form-group row">
-	    <label class="col-sm-2 col-xs-4 col-form-label">Vốn công ty</label>
+	    <label class="col-sm-2 col-xs-4 col-form-label">Vốn công ty:</label>
 	    <div class="col-sm-7 col-xs-5">
 	      <input type="text" class="form-control" id="company_cap" name="company_cap" value="{{company_capital_view}}" placeholder="Nhập số vốn công ty">
 	    </div>
 	    <div class="col-sm-3 col-xs-3">
-	      <label>Tỷ VNĐ</label>
+	      <label>(Tỷ VNĐ)</label>
 	    </div>
 	  </div>
     <!-- Số lượng cty muốn tìm kiếm -->
 	  <div class="form-group row">
-	    <label class="col-sm-2 col-xs-4 col-form-label">Số record</label>
+	    <label class="col-sm-2 col-xs-4 col-form-label">Số record:</label>
 	    <div class="col-sm-7 col-xs-5">
 	      <input type="text" class="form-control" id="count" name="count_company" value="{{count_record_view}}" placeholder="Nhập số record">
 	    </div>
 	    <div class="col-sm-3 col-xs-3">
-	      <label>Công ty</label>
+	      <label>(Công ty)</label>
 	    </div>
 	  </div>
     <!-- Tìm kiếm theo ngày cập nhật -->
 	    <div class="form-group row">
-            <label class="col-sm-2 col-xs-4 col-form-label">Ngày tìm kiếm</label>
+            <label class="col-sm-2 col-xs-4 col-form-label">Ngày tìm kiếm:</label>
             <div class="col-sm-3 col-xs-5">
                 <input id="datepicker" name="date_update" value="{{date_update_view}}" placeholder="dd/mm/yyyy"/>
                 <script>
@@ -149,11 +164,12 @@ header {
         <th scope="col">No</th>
         <th scope="col">Mã cổ phiếu</th>
         <th scope="col">Tên công ty</th>
-        <th scope="col">Vốn công ty (VND)</th>
+        <th scope="col">Vốn công ty (VNĐ)</th>
         <th scope="col">Giá hiện tại</th>
         <th scope="col">ROA(%)</th>
         <th scope="col">PE</th>
         <th scope="col">Mức độ hiệu quả</th>
+        <th scope="col">Mua/bán</th>
       </tr>
     </thead>
     <tbody>
@@ -169,7 +185,8 @@ header {
                       <td>{{company.r_o_a}}</td>
                       <td>{{company.p_e}}</td>
                       <td>{{company.efficiency_level}}</td>
-                  </tr> 
+                      <td><button disabled="true" class="btn btn-primary" style = "background: #5c9616">Mua</button>&ensp;<button disabled="true" type="" class="btn btn-primary" style = "background: #cfb521">Bán</button></td>
+                    </tr> 
               {% else %}   
                   <tr class="backgreen">
                       <td scope="row">{{company.id}}</td>
@@ -180,12 +197,13 @@ header {
                       <td>{{company.r_o_a}}</td>
                       <td>{{company.p_e}}</td>
                       <td>{{company.efficiency_level}}</td>
-                  </tr>
+                      <td><button disabled="true" type="" class="btn btn-primary" style = "background: #5c9616">Mua</button>&ensp;<button disabled="true" type="" class="btn btn-primary" style = "background: #cfb521">Bán</button></td>
+                    </tr>
               {% endif %}
           {% endfor %}
       {% else %}
                   <tr>
-                      <td colspan="8" align="center" >
+                      <td colspan="9" align="center" >
                           Không có thông tin công ty cần tìm kiếm.
                       </td>   
                   </tr>                    
