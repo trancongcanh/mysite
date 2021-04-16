@@ -6,6 +6,7 @@ from datetime import datetime
 from .models import Company
 import io,csv
 
+# Tạo đối tượng Company để hiển thị lên view
 class CompanyView:
     id=0;
     stocks="";
@@ -16,6 +17,7 @@ class CompanyView:
     p_e=0;
     efficiency_level=0;
     date_update=datetime.now()
+    # Constructor
     def __init__(self, id, stocks, company_name, company_cap, current_price, r_o_a, p_e, efficiency_level, date_update):
         self.stocks = stocks;
         self.company_name = company_name;
@@ -190,35 +192,4 @@ def profile_upload(request):
     context = {}
     return render(request, template, context)
 
-# def get(request):
-#         template_name = 'profile_upload.html'
-#         return render(request, template_name)
-
-# def post(request):
-#     paramFile = io.TextIOWrapper(request.FILES['companyfile'].file)
-#     portfolio1 = csv.DictReader(paramFile)
-#     list_of_dict = list(portfolio1)
-#     objs = [
-#         Company(
-#             id=row['id'],
-#             stocks=row['stocks'],
-#             company_name=row['company_name'],
-#             company_cap=row['company_cap'],
-#             current_price=row['current_price'],
-#             r_o_a=row['r_o_a'],
-#             p_e=row['p_e'],
-#             efficiency_level=row['efficiency_level'],
-#             date_update=datetime.strptime("2021-04-14", "%Y-%m-%d"),
-#         )
-#         for row in list_of_dict
-#     ]
-#     try:
-#         msg = Company.objects.bulk_create(objs)
-#         returnmsg = {"status_code": 200}
-#         print('imported successfully')
-#     except Exception as e:
-#         print('Error While Importing Data: ',e)
-#         returnmsg = {"status_code": 500}
-    
-#     return JsonResponse(returnmsg)
 
