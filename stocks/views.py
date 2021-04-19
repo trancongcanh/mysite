@@ -3,8 +3,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.template import loader
 from django.urls import reverse
 from datetime import datetime
-from .models import Company
+from .models import Company, User
 import io,csv
+from django.shortcuts import redirect
+
 
 # Tạo đối tượng Company để hiển thị lên view
 class CompanyView:
@@ -32,6 +34,8 @@ class CompanyView:
 # Xử lí hiển thị MH danh sách công ty
 def index(request):
     try:
+        username=request.POST.get('username', "")
+        log = 0
         company_list_db = Company.objects.order_by('-efficiency_level')
         template = loader.get_template('stocks/index.html')
         # Tạo danh sách đối tượng company mới có thuộc tính index để hiển thị STT table
@@ -41,7 +45,13 @@ def index(request):
             company_list_view.append(company_view)
         for index in range(len(company_list_view)):
             company_list_view[index].id=index+1
+        context = {}
+        if username != "" :
+            log = 1
+        else: 
+            log = 0
         context = {
+            'log': log,
             'company_list_view': company_list_view,
         }  
     except Company.DoesNotExist:
@@ -95,12 +105,14 @@ def search(request):
         # Get ra template theo đường dẫn tương ứng để set hiển thị
         template = loader.get_template('stocks/index.html')
         # Tạo 1 Dictionary đưa lên template hiển thị 
+        disable_buy_sell = False
         context = {
             'date_update_view': date_update,
             'len_company': len_company,
             'count_record_view': count_company,
             'company_capital_view': company_capital,
             'company_list_view': company_list_view,
+            'disable_buy_sell': disable_buy_sell
         }
     except (KeyError, Company.DoesNotExist):
         raise Http404('Company does not exist')
@@ -132,6 +144,7 @@ def search(request):
         # Get ra template theo đường dẫn tương ứng để set hiển thị
         template = loader.get_template('stocks/index.html')
         # Tạo 1 Dictionary đưa lên template hiển thị 
+        disable_buy_sell = false
         context = {
                     'date_update_view': date_update,                    
                     'count_record_view': count_company,
@@ -140,6 +153,7 @@ def search(request):
                     'message2': message2,
                     'message3': message3,
                     'company_list_view': company_list_view,
+                    'disable_buy_sell' : disable_buy_sell 
                 }
 
     # Trả về dữ liệu hiển thị trên tempalte
@@ -164,7 +178,7 @@ def profile_upload(request):
     data = Company.objects.all()
     # prompt is a context variable that can have different values depending on their context
     prompt = {
-        'order': 'Order of the CSV should be ...',
+        'order': 'Chọn file upload tại đây',
         'profiles': data    
     }
     # GET request returns the value of the data with the specified key.
@@ -189,7 +203,69 @@ def profile_upload(request):
             efficiency_level=column[6],
             date_update=datetime.now(),
         )
-    context = {}
+
+    context = {
+       'messages': "Upload file thành công"
+    }
     return render(request, template, context)
 
+def login(request):
+    if request.method == 'POST':
+        # Get dữ liệu từ request
+        user_name_views = request.POST.get('user_name', "")
+        password_views = request.POST.get('password', "")
+        user = User.objects.filter(user_name=user_name_views, password=password_views)
+        # Get ra template theo đường dẫn tương ứng để set hiển thị
+        template = loader.get_template('stocks/login_user.html')
 
+        if len(user) == 0:
+            message = "Login không thành công"
+            context = {
+                'message': message
+            }
+            return HttpResponse(template.render(context, request))
+        else:
+            username = ""
+            context ={}
+            for user in user:
+                username = user.user_name
+                context = {
+                    'username': username
+                }
+            try:
+                company_list_db = Company.objects.order_by('-efficiency_level')
+                template = loader.get_template('stocks/index.html')
+                # Tạo danh sách đối tượng company mới có thuộc tính index để hiển thị STT table
+                company_list_view = []
+                for company in company_list_db:
+                    company_view = CompanyView(0, company.stocks, company.company_name, company.company_cap, company.current_price, company.r_o_a, company.p_e, company.efficiency_level, company.date_update)
+                    company_list_view.append(company_view)
+                for index in range(len(company_list_view)):
+                    company_list_view[index].id=index+1
+                if username != "" :
+                    log = 1
+                else: 
+                    log = 0               
+                context = {
+                    'log': log,
+                    'username': username,
+                    'company_list_view': company_list_view,
+                }  
+            except Company.DoesNotExist:
+                raise Http404('Company does not exist')
+            return HttpResponse(template.render(context, request))        
+    else:
+        # Get dữ liệu từ request
+        user_name_views = request.POST.get('user_name', "")
+        password_views = request.POST.get('password', "")
+        user = User.objects.filter(user_name=user_name_views, password=password_views)
+        # Get ra template theo đường dẫn tương ứng để set hiển thị
+        template = loader.get_template('stocks/login_user.html')
+
+        if len(user) == 0:
+            message = "Đăng nhập để thực hiện giao dịch mua bán"
+            context = {
+                'message': message
+            }
+            return HttpResponse(template.render(context, request))        
+   

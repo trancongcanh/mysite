@@ -6,13 +6,11 @@
 </head>
 <body>
     {% if messages %}
-        {% for message in messages %}
-            <div>
-<!--                | means OR operator-->
-                <strong>{{message|safe}}</strong>
-            </div>
-        {% endfor %}
-    {% else %}
+    <div>
+        <!--| means OR operator-->
+        <b>{{messages}}</b>
+    </div>
+    {% endif %}
     {{order}}
     <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
@@ -21,7 +19,6 @@
         <small>Only accepts CSV files</small>
         <button type="submit">Upload</button>
     </form>
-    {% endif %}
     {% for profile in profiles %}
     {{profile.name}}
     {% endfor %}

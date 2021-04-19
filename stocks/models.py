@@ -18,3 +18,11 @@ class Company(models.Model):
     # Ngày cập nhật
     date_update = models.DateField(null=True, blank=True)
 
+#Tạo bảng các công ty và các thuộc tính tương ứng
+class User(models.Model):
+    # Mã cổ phiếu	
+    user_name = models.CharField(max_length=50, primary_key=True)
+    # Tên công  ty
+    password = models.CharField(max_length=16)
+
+

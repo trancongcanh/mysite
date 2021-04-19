@@ -97,11 +97,21 @@ header {
     <div class="form-group row">
         <div class="right" >
             <div class="col-sm-15">
-                {% if user.username %}
-                    <p><button type="" class="btn btn-primary" style = "background: #5c9616">Logout</button></p>
-                    <b style = "color: #d80505">Hi, {{user.username}}</b>
+                {% if log == 1 %}
+                    <p style="  background-color: #a9c38a; 
+                                border-top-left-radius: 10%;
+                                border-bottom-right-radius: 10%;
+                                border-bottom-left-radius: 10%;
+                                border-top-right-radius: 10%;">
+                                <a style="color: white;" href="/stocks">Logout</a></p>
+                    <b style = "color: #d80505">Hi, {{username}}</b>
                 {% else %}
-                    <p><a href="/" url 'register' %}">Sign In</a>|<a href="/" url 'login' %}">Login</a></p>
+                    <p style="  background-color: #a9c38a; 
+                                border-top-left-radius: 10%;
+                                border-bottom-right-radius: 10%;
+                                border-bottom-left-radius: 10%;
+                                border-top-right-radius: 10%;">
+                                <a href="/" url 'register' %}">Sign In</a>|<a href="/stocks/login" url 'login' %}">Login</a></p>
                 {% endif %}
             </div>
         </div>
@@ -185,7 +195,11 @@ header {
                       <td>{{company.r_o_a}}</td>
                       <td>{{company.p_e}}</td>
                       <td>{{company.efficiency_level}}</td>
-                      <td><button disabled="true" class="btn btn-primary" style = "background: #5c9616">Mua</button>&ensp;<button disabled="true" type="" class="btn btn-primary" style = "background: #cfb521">Bán</button></td>
+                      {% if log == 0 %}
+                        <td><button disabled="true"  class="btn btn-primary" style = "background: #5c9616">Mua</button>&ensp;<button disabled="true" class="btn btn-primary" style = "background: #cfb521">Bán</button></td>
+                    {% else %}
+                        <td><button  class="btn btn-primary" style = "background: #5c9616">Mua</button>&ensp;<button class="btn btn-primary" style = "background: #cfb521">Bán</button></td>
+                    {% endif %}
                     </tr> 
               {% else %}   
                   <tr class="backgreen">
@@ -197,7 +211,11 @@ header {
                       <td>{{company.r_o_a}}</td>
                       <td>{{company.p_e}}</td>
                       <td>{{company.efficiency_level}}</td>
-                      <td><button disabled="true" type="" class="btn btn-primary" style = "background: #5c9616">Mua</button>&ensp;<button disabled="true" type="" class="btn btn-primary" style = "background: #cfb521">Bán</button></td>
+                      {% if log == 0 %}
+                        <td><button disabled="true"  class="btn btn-primary" style = "background: #5c9616">Mua</button>&ensp;<button disabled="true" class="btn btn-primary" style = "background: #cfb521">Bán</button></td>
+                    {% else %}
+                        <td><button  class="btn btn-primary" style = "background: #5c9616">Mua</button>&ensp;<button class="btn btn-primary" style = "background: #cfb521">Bán</button></td>
+                    {% endif %}                    
                     </tr>
               {% endif %}
           {% endfor %}
