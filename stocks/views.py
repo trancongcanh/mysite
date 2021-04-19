@@ -261,7 +261,6 @@ def login(request):
         user = User.objects.filter(user_name=user_name_views, password=password_views)
         # Get ra template theo đường dẫn tương ứng để set hiển thị
         template = loader.get_template('stocks/login_user.html')
-
         if len(user) == 0:
             context = {
             }
@@ -285,4 +284,21 @@ def signup(request):
     else:
         context = {}
         return render(request, 'stocks/signup_user.html', context)
-         
+
+
+def export_csv(request):
+
+    # Get all data from UserDetail Databse Table
+    companys = Company.objects.all()
+
+    # Create the HttpResponse object with the appropriate CSV header.
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="stocks.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['company_name', 'company_cap'])
+
+    for company in companys:
+        writer.writerow([company.company_name, company.company_cap])
+
+    return response
