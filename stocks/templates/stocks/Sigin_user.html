@@ -1,0 +1,117 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Stocks Company</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Style the header */
+header {
+  background-color: #1b62a9	;
+  padding: 1.5%;
+  /*text-align: center;*/
+  font-size: 120%;
+  color: white;
+}
+
+
+.backgreen {
+	background: #a9c38a
+}
+.numberTextAlign {
+	text-align: right
+}
+article {
+  float: left;
+  padding: 1%;
+  width: 70%;
+  background-color: #f1f1f1;
+  height: 300px; /* only for demonstration, should be removed */
+}
+
+
+/* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+@media (max-width: 600px) {
+  nav, article {
+    width: 100%;
+    height: auto;
+  }
+}
+
+
+@media (min-width: 1200px) {
+.container {
+    width: 750px;
+}
+}
+@media only screen and (max-width: 600px) {
+  /* Style the header */
+header {
+  background-color: #1b62a9	;
+  padding: 1.5%;
+  padding-top: 5%;
+  /*text-align: center;*/
+  font-size: 80%;
+  color: white;
+  
+}
+::placeholder {
+    font-size: 90%;
+}
+}
+
+</style>
+</head>
+<body>
+<header>
+  <div class="container" style="background-color: rgb(185, 188, 143);">
+    <!-- Form tìm kiếm -->
+    <form action="" method="POST">
+    <!-- Phòng chống csrf -->
+    {% csrf_token %}
+    <!-- Vùng thông báo lỗi -->
+        <div style="font-size: 20px; color: #af3030;"  >
+            {{ message }}
+        </div>
+    <!-- User name -->
+	  <div class="form-group row">
+	    <label class="col-sm-2 col-xs-4 col-form-label">User name:</label>
+	    <div class="col-sm-7 col-xs-5">
+	      <input type="text" class="form-control" id="user_name" name="user_name" placeholder="Nhập user name">
+	    </div>
+	  </div>
+    <!-- Pass word -->
+	  <div class="form-group row">
+	    <label class="col-sm-2 col-xs-4 col-form-label">Password:</label>
+	    <div class="col-sm-7 col-xs-5">
+	      <input type="password" class="form-control" id="password" name="password" placeholder="Nhập password">
+	    </div>
+	  </div>
+    <!-- Button login -->
+	  <div class="form-group row">
+	  	<div class="col-sm-2 col-xs-4">
+	    </div>
+	    <div class="col-sm-1 col-xs-1">
+	      <button type="submit" class="btn btn-primary" style = "background: #5c9616">Login</button>
+	    </div>
+	  </div>
+	</form>
+</div>
+</header>
+</body>
+</html>
