@@ -269,3 +269,22 @@ def login(request):
             }
             return HttpResponse(template.render(context, request))        
    
+def signup(request):
+    if request.method == 'POST':
+        # Get dữ liệu từ request
+        user_name_views = request.POST.get('user_name', "")
+        password_views = request.POST.get('password', "")
+        message = ""
+        if (user_name_views != "" and password_views != ""):
+            user = User.objects.update_or_create(user_name=user_name_views, password=password_views)
+            message = "Đăng kí thành công, vui lòng quay về trang chủ để login"
+        else:
+            message = "Đăng kí không thành công, vui lòng nhập đầy đủ username và password"
+        context = {
+            'message': message
+        }
+        return render(request, 'stocks/signup_user.html', context)
+    else:
+        context = {}
+        return render(request, 'stocks/signup_user.html', context)
+         
