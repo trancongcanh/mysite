@@ -219,7 +219,7 @@ def login(request):
         template = loader.get_template('stocks/login_user.html')
 
         if len(user) == 0:
-            message = "Login không thành công"
+            message = "Login không thành công, vui lòng thử lại"
             context = {
                 'message': message
             }
@@ -263,9 +263,7 @@ def login(request):
         template = loader.get_template('stocks/login_user.html')
 
         if len(user) == 0:
-            message = "Đăng nhập để thực hiện giao dịch mua bán"
             context = {
-                'message': message
             }
             return HttpResponse(template.render(context, request))        
    
