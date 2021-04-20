@@ -6,6 +6,7 @@ from datetime import datetime
 from .models import Company, User
 import io,csv
 from django.shortcuts import redirect
+from .common import change_format_date_update
 
 # Xử lí export file csv
 def export_csv(request):
@@ -47,9 +48,9 @@ def export_csv(request):
     response['Content-Disposition'] = 'attachment; filename="stocks.csv"'
 
     writer = csv.writer(response)
-    writer.writerow(['company_name', 'company_cap'])
+    writer.writerow(['stocks','company_name', 'company_cap','current_price', 'r_o_a', 'p_e', 'efficiency_level', 'date_update'])
 
     for company in company_list:
-        writer.writerow([company.company_name, company.company_cap])
+        writer.writerow([company.stocks, company.company_name, company.company_cap, company.current_price, company.r_o_a, company.p_e, company.efficiency_level, company.date_update])
 
     return response

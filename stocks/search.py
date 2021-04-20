@@ -7,6 +7,7 @@ from .models import Company, User
 from django.shortcuts import redirect
 
 from .company_view import CompanyView
+from .common import change_format_date_update
 
 # Xử lí hiển thị trường hợp search
 def search(request):
@@ -119,15 +120,3 @@ def search(request):
 
     # Trả về dữ liệu hiển thị trên tempalte
     return HttpResponse(template.render(context, request))
-
-# Thay đổi format date từ dd/mm/yyyy --> yyyy-mm-dd
-def change_format_date_update(date_update):
-    date_update_view = ""
-    date_update_view_list = date_update.split("/")
-    if (date_update != ""):
-        for index in range(len(date_update_view_list)):
-            if (index == 0) :
-                date_update_view = str(date_update_view_list[index])
-            else:
-                date_update_view = str(date_update_view_list[index]) + "-" + date_update_view
-    return date_update_view
