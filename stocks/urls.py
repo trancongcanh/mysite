@@ -1,15 +1,15 @@
 from django.conf.urls import url 
 from django.contrib.auth import views as auth_views
 
-from . import views 
+from . import views, search, upload, login, logout, signup, export
 
 app_name = "stocks"
 urlpatterns = [ 
     url(r'^$', views.index, name='index'),
-    url(r'^search/', views.search, name='search'),
-    url(r'^upload-csv/', views.profile_upload, name="profile_upload"),
-    url(r'^login/', views.login, name="login"),
-    url(r'^logout/',views.logout,name='logout'),
-    url(r'^signup/',views.signup, name="signup"),
-    url(r'^export_csv/',views.export_csv, name="export_csv"),    
+    url(r'^search/', search.search, name='search'),
+    url(r'^upload-csv/', upload.profile_upload, name="profile_upload"),
+    url(r'^login/', login.login, name="login"),
+    url(r'^logout/',logout.logout,name='logout'),
+    url(r'^signup/',signup.signup, name="signup"),
+    url(r'^export_csv/',export.export_csv, name="export_csv"),    
 ]
