@@ -7,6 +7,8 @@ from .models import Company, User
 import io,csv
 from django.shortcuts import redirect
 
+from .company_view import CompanyView
+
 # Xử lí log out
 def logout(request):
     try:

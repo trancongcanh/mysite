@@ -6,6 +6,8 @@ from datetime import datetime
 from .models import Company, User
 from django.shortcuts import redirect
 
+from .company_view import CompanyView
+
 # Xử lí hiển thị trường hợp search
 def search(request):
     try:

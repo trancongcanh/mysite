@@ -6,7 +6,9 @@ from datetime import datetime
 from .models import Company, User
 from django.shortcuts import redirect
 
+from .company_view import CompanyView
 
+        
 # Xử lí login
 def login(request):
     # Thực hiện xóa các điều kiện tìm kiếm (nếu có) ở MH danh sách hiện tại trên session
