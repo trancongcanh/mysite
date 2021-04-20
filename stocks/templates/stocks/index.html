@@ -196,7 +196,7 @@ header {
         <th scope="col">ROA(%)</th>
         <th scope="col">PE</th>
         <th scope="col">Mức độ hiệu quả</th>
-        <th scope="col">Mua/bán</th>
+        <th scope="col" colspan="2">Mua/bán</th>
       </tr>
     </thead>
     <tbody>
@@ -204,35 +204,39 @@ header {
           {% for company in company_list_view %}
               {% if len_company == 1  %}
                   <tr>
-                      <td scope="row">{{company.id}}</td>
-                      <td>{{company.stocks}}</td>
-                      <td>{{company.company_name}}</td>
-                      <td>{{company.company_cap}}</td>
-                      <td>{{company.current_price}}</td>
-                      <td>{{company.r_o_a}}</td>
-                      <td>{{company.p_e}}</td>
-                      <td>{{company.efficiency_level}}</td>
-                      {% if log == 0 %}
-                        <td><button disabled="true"  class="btn btn-primary" style = "background: #5c9616">Mua</button>&ensp;<button disabled="true" class="btn btn-primary" style = "background: #cfb521">Bán</button></td>
-                    {% else %}
-                        <td><button  class="btn btn-primary" style = "background: #5c9616">Mua</button>&ensp;<button class="btn btn-primary" style = "background: #cfb521">Bán</button></td>
-                    {% endif %}
+                        <td scope="row">{{company.id}}</td>
+                        <td>{{company.stocks}}</td>
+                        <td>{{company.company_name}}</td>
+                        <td>{{company.company_cap}}</td>
+                        <td>{{company.current_price}}</td>
+                        <td>{{company.r_o_a}}</td>
+                        <td>{{company.p_e}}</td>
+                        <td>{{company.efficiency_level}}</td>
+                        {% if log == 0 %}
+                            <td><button disabled="true"  class="btn btn-primary" style = "background: #5c9616">Mua</button></td>
+                            <td><button disabled="true" class="btn btn-primary" style = "background: #cfb521">Bán</button></td>
+                        {% else %}
+                            <td><button  class="btn btn-primary" style = "background: #5c9616">Mua</button></td>
+                            <td><button class="btn btn-primary" style = "background: #cfb521">Bán</button></td>
+                        {% endif %}
                     </tr> 
               {% else %}   
                   <tr class="backgreen">
-                      <td scope="row">{{company.id}}</td>
-                      <td>{{company.stocks}}</td>
-                      <td>{{company.company_name}}</td>
-                      <td>{{company.company_cap}}</td>
-                      <td>{{company.current_price}}</td>
-                      <td>{{company.r_o_a}}</td>
-                      <td>{{company.p_e}}</td>
-                      <td>{{company.efficiency_level}}</td>
-                      {% if log == 0 %}
-                        <td><button disabled="true"  class="btn btn-primary" style = "background: #5c9616">Mua</button>&ensp;<button disabled="true" class="btn btn-primary" style = "background: #cfb521">Bán</button></td>
-                    {% else %}
-                        <td><button  class="btn btn-primary" style = "background: #5c9616">Mua</button>&ensp;<button class="btn btn-primary" style = "background: #cfb521">Bán</button></td>
-                    {% endif %}                    
+                        <td scope="row">{{company.id}}</td>
+                        <td>{{company.stocks}}</td>
+                        <td>{{company.company_name}}</td>
+                        <td>{{company.company_cap}}</td>
+                        <td>{{company.current_price}}</td>
+                        <td>{{company.r_o_a}}</td>
+                        <td>{{company.p_e}}</td>
+                        <td>{{company.efficiency_level}}</td>
+                        {% if log == 0 %}
+                            <td><button disabled="true"  class="btn btn-primary" style = "background: #5c9616">Mua</button></td>
+                            <td><button disabled="true" class="btn btn-primary" style = "background: #cfb521">Bán</button></td>
+                        {% else %}
+                            <td><button  class="btn btn-primary" style = "background: #5c9616">Mua</button></td>
+                            <td><button class="btn btn-primary" style = "background: #cfb521">Bán</button></td>
+                        {% endif %}                   
                     </tr>
               {% endif %}
           {% endfor %}
