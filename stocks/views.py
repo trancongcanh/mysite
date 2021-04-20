@@ -193,7 +193,6 @@ def profile_upload(request):
     data = Company.objects.all()
     # Tạo 1 Dictionary đưa lên template hiển thị 
     prompt = {
-        'order': 'Chọn file upload tại đây',
         'profiles': data    
     }
     # Xử lí hiển thị ban đầu khi vào trang upload file
@@ -202,7 +201,11 @@ def profile_upload(request):
     csv_file = request.FILES['profile_upload']
     # Kiểm tra xem tệp đầu vào phải là tệp csv không
     if not csv_file.name.endswith('.csv'):
-        messages.error(request, 'THIS IS NOT A CSV FILE')
+        context = {
+            'messages': "File upload không phải tệp csv"
+        }
+        # Trả về template hiển thị sau khi upload file thất bại
+        return render(request, template, context)
     data_set = csv_file.read().decode('UTF-8')
     # setup a stream which is when we loop through each line we are able to handle a data in a stream
     io_string = io.StringIO(data_set)
