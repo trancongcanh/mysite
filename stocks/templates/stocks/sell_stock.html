@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="csrf_token" content="{{ csrf_token }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -12,22 +13,27 @@
 		.tableSellBuy{
 			border: 1px solid #BDBDBD;
 			border-radius:5px;
-			position: absolute;
-			left: 30%;
-            right: 35%;
-            top: 0.25%;
 			padding: 2%;
-			margin: 2%;
-            background-color: #1b62a9;
+			margin-left: 30%;
+            margin-right: 30%;
+            background-color: #a9c38a;
 
 		}
+        /* Style the header */
+        header {
+        background-color: #1b62a9	;
+        padding: 1.5%;
+        /*text-align: center;*/
+        font-size: 120%;
+        color: black;
+        }
         table {
             background-color: whitesmoke;
         }
         .small {
-            padding-bottom: 4%;
-            padding-right: 66%;
-            padding-top: 4%;
+            padding-bottom: 2%;
+            padding-right: 77%;
+            padding-top: 2%;
         }
         .center {
             margin-left: 35%;
@@ -43,19 +49,16 @@
             padding-top: 1%;
             padding-left: 2%;
         }
-        @media only screen and (max-width: 600px) {
+        @media only screen and (max-width: 1830px) {
             .tableSellBuy{
-            border: 1px solid #BDBDBD;
-            border-radius:5px;
-            position: absolute;
-            left: 5%;
-            right: 5%;
-            top: 3%;
-            padding: 2%;
-            margin: 2%;
-            background-color: #1b62a9;
+			border: 1px solid #BDBDBD;
+			border-radius:5px;
+			padding: 2%;
+			margin-left: 2%;
+            margin-right: 2%;
+            background-color: #a9c38a;
 
-            }
+		    }
             .center {
             margin-left: 25%;
             }
@@ -75,43 +78,69 @@
             padding-top: 1%;
             padding-left: 2%;
             }
+            /* Style the header */
+            header {
+                background-color: #1b62a9	;
+                padding: 1.5%;
+                padding-top: 5%;
+                /*text-align: center;*/
+                font-size: 80%;
+                color: black;
+                
+            }
         }
 	</style>
 </head>
 <body>
-	<div class="tableSellBuy">
-        <div class="title">
-            <b>MH Bán</b>
+    <header>
+        <div class="tableSellBuy">
+            <div class="title">
+                <b>MH Bán</b>
+            </div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Số dư hiện tại</th>
+                    <td colspan="2">(VNĐ)</td>
+                </tr>
+                <tr>
+                    <th>Mã cổ phiếu</th>
+                    <td>Giá</td>
+                    <td>Số lượng</td>
+                </tr>
+                <tr>
+                    <form action="{% url 'stocks:sell_stocks' %}" method="POST">
+                        {% csrf_token %}
+                        <td>
+                            <select onchange="this.form.submit()" class="small" id = "stock" name = "stock">
+                                {% if stock != "" %}
+                                    <option selected="selected" value="{{ stock }}">{{ stock }}</option>
+                                    {% for company_stock in list_stocks %}
+                                        <option value="{{ company_stock }}">{{ company_stock }}</option>
+                                    {% endfor %}
+                                {% else %}
+                                    <option value="">---</option>
+                                    {% for company_stock in list_stocks %}
+                                        <option value="{{ company_stock }}">{{ company_stock }}</option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                        </td>
+                        {% if stock != "" %}
+                            <td>{{current_price}}</td>
+                        {%else%}
+                            <td>No</td>
+                        {%endif%}
+                        <td>
+                            <input style="color: black; padding-bottom: 1%; padding-top: 1%;" type="number" value="0" min="0" max="99999999" step="10"/>
+                        </td>
+                    </form>
+                </tr>
+            </table>
+            <div class="center">        
+                <button type="submit" class="btn btn-primary" style = "background: #4b8505">Thực hiện giao dịch</button>
+            </div>
         </div>
-        <table class="table table-bordered">
-            <tr>
-                <th>Số dư hiện tại</th>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <th>Mã cổ phiếu</th>
-                <td>Giá</td>
-                <td>Số lượng</td>
-            </tr>
-            <tr>
-                <td>
-                    <select class="small" id="cars" name="cars">
-                        {% for stocks in list_stocks %}
-                            <option value="{{ stocks }}">{{ stocks }}</option>
-                        {% endfor %}
-                    </select>
-                </td>
-                <td>50000</td>
-                <td>
-                    <input style="color: black; padding-bottom: 2%; padding-top: 2%;" type="number" value="0" min="0" max="99999999" step="10"/>
-                </td>
-            </tr>
-        </table>
-        <div class="center">        
-            <button type="submit" class="btn btn-success">Thực hiện giao dịch</button>
-        </div>
-    </div>
+    </header>
 </body>
 </html>
 

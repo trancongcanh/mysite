@@ -13,22 +13,27 @@
 		.tableSellBuy{
 			border: 1px solid #BDBDBD;
 			border-radius:5px;
-			position: absolute;
-			left: 30%;
-            right: 35%;
-            top: 0.25%;
 			padding: 2%;
-			margin: 2%;
-            background-color: #1b62a9;
+			margin-left: 30%;
+            margin-right: 30%;
+            background-color: #a9c38a;
 
 		}
+        /* Style the header */
+        header {
+        background-color: #1b62a9	;
+        padding: 1.5%;
+        /*text-align: center;*/
+        font-size: 120%;
+        color: black;
+        }
         table {
             background-color: whitesmoke;
         }
         .small {
-            padding-bottom: 4%;
-            padding-right: 66%;
-            padding-top: 4%;
+            padding-bottom: 2%;
+            padding-right: 77%;
+            padding-top: 2%;
         }
         .center {
             margin-left: 35%;
@@ -44,26 +49,23 @@
             padding-top: 1%;
             padding-left: 2%;
         }
-        @media only screen and (max-width: 600px) {
+        @media only screen and (max-width: 1830px) {
             .tableSellBuy{
-            border: 1px solid #BDBDBD;
-            border-radius:5px;
-            position: absolute;
-            left: 5%;
-            right: 5%;
-            top: 3%;
-            padding: 2%;
-            margin: 2%;
-            background-color: #1b62a9;
+			border: 1px solid #BDBDBD;
+			border-radius:5px;
+			padding: 2%;
+			margin-left: 2%;
+            margin-right: 2%;
+            background-color: #a9c38a;
 
-            }
+		    }
             .center {
             margin-left: 25%;
             }
             .small {
-            padding-bottom: 4%;
-            padding-right: 50%;
-            padding-top: 4%;
+            padding-bottom: 2%;
+            padding-right: 60%;
+            padding-top: 2%;
             }
             .title {
             font-size: 100%; 
@@ -76,10 +78,21 @@
             padding-top: 1%;
             padding-left: 2%;
             }
+            /* Style the header */
+            header {
+                background-color: #1b62a9	;
+                padding: 1.5%;
+                padding-top: 5%;
+                /*text-align: center;*/
+                font-size: 80%;
+                color: black;
+                
+            }
         }
 	</style>
 </head>
 <body>
+    <header>
         <div class="tableSellBuy">
             <div class="title">
                 <b>MH Mua</b>
@@ -87,8 +100,7 @@
             <table class="table table-bordered">
                 <tr>
                     <th>Số dư hiện tại</th>
-                    <td></td>
-                    <td></td>
+                    <td colspan="2">{{capital_company}}(VNĐ)</td>
                 </tr>
                 <tr>
                     <th>Mã cổ phiếu</th>
@@ -119,15 +131,16 @@
                             <td>No</td>
                         {%endif%}
                         <td>
-                            <input style="color: black; padding-bottom: 2%; padding-top: 2%;" type="number" value="0" min="0" max="99999999" step="10"/>
+                            <input style="color: black; padding-bottom: 1%; padding-top: 1%;" type="number" value="{{count}}" min="0" max="99999999" step="10"/>
                         </td>
                     </form>
                 </tr>
             </table>
             <div class="center">        
-                <button type="submit" class="btn btn-success">Thực hiện giao dịch</button>
+                <button type="submit" class="btn btn-primary" style = "background: #4b8505">Thực hiện giao dịch</button>
             </div>
         </div>
+    </header>
 </body>
 </html>
 

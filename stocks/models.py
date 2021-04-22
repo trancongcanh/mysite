@@ -20,9 +20,11 @@ class Company(models.Model):
 
 #Tạo bảng các công ty và các thuộc tính tương ứng
 class User(models.Model):
-    # Mã cổ phiếu	
+    # User name	
     user_name = models.CharField(max_length=50, primary_key=True)
-    # Tên công  ty
+    # pass word
     password = models.CharField(max_length=16)
+    # Vốn cá nhân
+    capital = models.CharField(max_length=50)
 
 

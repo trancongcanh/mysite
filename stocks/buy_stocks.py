@@ -9,6 +9,12 @@ from django.shortcuts import redirect
 def buy_stocks(request):
     # Get dữ liệu từ session
     username=request.session.get('member_id', '')
+    # Lấy ra thông tin user từ DB
+    user = User.objects.filter(user_name=username)
+    capital_company = ""
+    if len(user) != 0:
+        for user in user:
+            capital_company = user.capital
     # Get stocks từ request
     stock = request.POST.get('stock', '')
     # Thực hiện xóa các điều kiện tìm kiếm (nếu có) ở MH danh sách hiện tại trên session
@@ -27,10 +33,19 @@ def buy_stocks(request):
         if company.stocks == stock:
             current_price = company.current_price
         else:
-            list_stocks.append(company.stocks)  
+            list_stocks.append(company.stocks)
+    # Lấy số lượng cổ phiếu có thể mua
+    count = 0
+    if (stock != "" and capital_company != "" and current_price != ""):
+        tmp = int (capital_company/current_price)
+        while (tmp%10 != 0):
+            tmp-=1
+        count = tmp
     context = {
         'current_price': current_price,
         'list_stocks': list_stocks,
-        'stock': stock
+        'stock': stock,
+        'capital_company': capital_company,
+        'count': count,
     }
     return HttpResponse(template.render(context, request))
