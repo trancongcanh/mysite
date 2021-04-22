@@ -16,9 +16,9 @@ def search(request):
         username=request.session.get('member_id', '')
         log = 0
         # Get dữ liệu từ request
-        company_capital = request.POST['company_cap']
-        count_company = request.POST['count_company']
-        date_update = request.POST['date_update']
+        company_capital = request.POST.get('company_cap', '')
+        count_company = request.POST.get('count_company', '')
+        date_update = request.POST.get('date_update', '')
         request.session['company_cap'] = company_capital
         request.session['count_company'] = count_company
         request.session['date_update'] = date_update
@@ -105,18 +105,21 @@ def search(request):
         company_list_view=[]
         # Get ra template theo đường dẫn tương ứng để set hiển thị
         template = loader.get_template('stocks/index.html')
+        if username != "" :
+            log = 1
+        else: 
+            log = 0
         # Tạo 1 Dictionary đưa lên template hiển thị 
-        disable_buy_sell = false
         context = {
-                    'date_update_view': date_update,                    
-                    'count_record_view': count_company,
-                    'company_capital_view': company_capital,
-                    'message': message,
-                    'message2': message2,
-                    'message3': message3,
-                    'company_list_view': company_list_view,
-                    'disable_buy_sell' : disable_buy_sell 
-                }
+            'log': log,
+            'date_update_view': date_update,                    
+            'count_record_view': count_company,
+            'company_capital_view': company_capital,
+            'message': message,
+            'message2': message2,
+            'message3': message3,
+            'company_list_view': company_list_view,
+        }
 
     # Trả về dữ liệu hiển thị trên tempalte
     return HttpResponse(template.render(context, request))

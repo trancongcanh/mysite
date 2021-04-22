@@ -28,7 +28,10 @@ header {
   font-size: 120%;
   color: white;
 }
-
+.messages {
+    font-size: 100%; 
+    color: #df2f2f;
+}
 
 .backgreen {
 	background: #a9c38a
@@ -114,7 +117,7 @@ header {
 	    </div>
 	  </div>
         <!-- Vùng thông báo lỗi -->
-        <div style="font-size: 90%; color: #000000;"  >
+        <div class="messages"  >
             {%if message%}
                 {{ message }}
             {% endif%}
