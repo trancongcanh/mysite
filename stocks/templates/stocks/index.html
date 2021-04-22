@@ -118,27 +118,21 @@ header {
     </div>
     <!-- Tìm kiếm theo vốn công ty -->
 	  <div class="form-group row">
-	    <label class="col-sm-2 col-xs-4 col-form-label">Vốn công ty:</label>
+	    <label class="col-sm-3 col-xs-5 col-form-label">Vốn công ty (Tỷ VNĐ):</label>
 	    <div class="col-sm-7 col-xs-5">
 	      <input type="text" class="form-control" id="company_cap" name="company_cap" value="{{company_capital_view}}" placeholder="Nhập số vốn công ty">
-	    </div>
-	    <div class="col-sm-3 col-xs-3">
-	      <label>(Tỷ VNĐ)</label>
 	    </div>
 	  </div>
     <!-- Số lượng cty muốn tìm kiếm -->
 	  <div class="form-group row">
-	    <label class="col-sm-2 col-xs-4 col-form-label">Số record:</label>
+	    <label class="col-sm-3 col-xs-5 col-form-label">Số record (Công ty):</label>
 	    <div class="col-sm-7 col-xs-5">
 	      <input type="text" class="form-control" id="count" name="count_company" value="{{count_record_view}}" placeholder="Nhập số record">
-	    </div>
-	    <div class="col-sm-3 col-xs-3">
-	      <label>(Công ty)</label>
 	    </div>
 	  </div>
     <!-- Tìm kiếm theo ngày cập nhật -->
 	    <div class="form-group row">
-            <label class="col-sm-2 col-xs-4 col-form-label">Ngày tìm kiếm:</label>
+            <label class="col-sm-3 col-xs-5 col-form-label">Ngày tìm kiếm:</label>
             <div class="col-sm-3 col-xs-5">
                 <input id="datepicker" name="date_update" value="{{date_update_view}}" placeholder="dd/mm/yyyy"/>
                 <script>
@@ -213,12 +207,40 @@ header {
                         <td>{{company.p_e}}</td>
                         <td>{{company.efficiency_level}}</td>
                         {% if log == 0 %}
-                            <td><button disabled="true"  class="btn btn-primary" style = "background: #5c9616">Mua</button></td>
-                            <td><button disabled="true" class="btn btn-primary" style = "background: #cfb521">Bán</button></td>
+                        <td><small style="  background-color: #939491; 
+                            border-top-left-radius: 4px;
+                            border-bottom-right-radius: 4px;
+                            border-bottom-left-radius: 4px;
+                            border-top-right-radius: 4px;
+                            padding-top: 4%;
+                            padding-bottom: 4%;">
+                            <a title="Login để thực hiện chức năng" style="color:rgb(0, 0, 0);">&emsp;Mua&emsp;</a></small></td> 
+                        <td><small style="  background-color: #939491; 
+                            border-top-left-radius: 4px;
+                            border-bottom-right-radius: 4px;
+                            border-bottom-left-radius: 4px;
+                            border-top-right-radius: 4px;
+                            padding-top: 4%;
+                            padding-bottom: 4%;">
+                            <a title="Login để thực hiện chức năng" style="color:rgb(0, 0, 0);">&emsp;Bán&emsp;</a></small></td> 
                         {% else %}
-                            <td><button  class="btn btn-primary" style = "background: #5c9616">Mua</button></td>
-                            <td><button class="btn btn-primary" style = "background: #cfb521">Bán</button></td>
-                        {% endif %}
+                        <td><small style="  background-color: #4b8505; 
+                            border-top-left-radius: 4px;
+                            border-bottom-right-radius: 4px;
+                            border-bottom-left-radius: 4px;
+                            border-top-right-radius: 4px;
+                            padding-top: 4%;
+                            padding-bottom: 4%;">
+                        <a style="color: rgb(0, 0, 0);" href="/stocks/buy_stocks">&emsp;Mua&emsp;</a></small></td>
+                        <td><small style="  background-color: #cfb521; 
+                            border-top-left-radius: 4px;
+                            border-bottom-right-radius: 4px;
+                            border-bottom-left-radius: 4px;
+                            border-top-right-radius: 4px;
+                            padding-top: 4%;
+                            padding-bottom: 4%;">
+                        <a style="color: rgb(0, 0, 0);" href="/stocks/sell_stocks">&emsp;Bán&emsp;</a></small></td>                             
+                        {% endif %}  
                     </tr> 
               {% else %}   
                   <tr class="backgreen">
@@ -231,12 +253,40 @@ header {
                         <td>{{company.p_e}}</td>
                         <td>{{company.efficiency_level}}</td>
                         {% if log == 0 %}
-                            <td><button disabled="true"  class="btn btn-primary" style = "background: #5c9616">Mua</button></td>
-                            <td><button disabled="true" class="btn btn-primary" style = "background: #cfb521">Bán</button></td>
+                        <td><small style="  background-color: #939491; 
+                            border-top-left-radius: 4px;
+                            border-bottom-right-radius: 4px;
+                            border-bottom-left-radius: 4px;
+                            border-top-right-radius: 4px;
+                            padding-top: 4%;
+                            padding-bottom: 4%;">
+                            <a title="Login để thực hiện chức năng" style="color:rgb(0, 0, 0);">&emsp;Mua&emsp;</a></small></td> 
+                        <td><small style="  background-color: #939491; 
+                            border-top-left-radius: 4px;
+                            border-bottom-right-radius: 4px;
+                            border-bottom-left-radius: 4px;
+                            border-top-right-radius: 4px;
+                            padding-top: 4%;
+                            padding-bottom: 4%;">
+                            <a title="Login để thực hiện chức năng" style="color:rgb(0, 0, 0);">&emsp;Bán&emsp;</a></small></td> 
                         {% else %}
-                            <td><button  class="btn btn-primary" style = "background: #5c9616">Mua</button></td>
-                            <td><button class="btn btn-primary" style = "background: #cfb521">Bán</button></td>
-                        {% endif %}                   
+                        <td><small style="  background-color: #4b8505; 
+                            border-top-left-radius: 4px;
+                            border-bottom-right-radius: 4px;
+                            border-bottom-left-radius: 4px;
+                            border-top-right-radius: 4px;
+                            padding-top: 4%;
+                            padding-bottom: 4%;">
+                        <a style="color: rgb(0, 0, 0);" href="/stocks/buy_stocks">&emsp;Mua&emsp;</a></small></td>
+                        <td><small style="  background-color: #cfb521; 
+                            border-top-left-radius: 4px;
+                            border-bottom-right-radius: 4px;
+                            border-bottom-left-radius: 4px;
+                            border-top-right-radius: 4px;
+                            padding-top: 4%;
+                            padding-bottom: 4%;">
+                        <a style="color: rgb(0, 0, 0);" href="/stocks/sell_stocks">&emsp;Bán&emsp;</a></small></td>                             
+                        {% endif %}                 
                     </tr>
               {% endif %}
           {% endfor %}

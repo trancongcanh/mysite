@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Stocks Company</title>
+<title>Sign up</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -22,7 +22,7 @@ body {
 
 /* Style the header */
 header {
-  background-color: #1b62a9	;
+  background-color: #ffffff	;
   padding: 1.5%;
   /*text-align: center;*/
   font-size: 120%;
@@ -79,7 +79,7 @@ header {
 </head>
 <body>
 <header>
-  <div class="container" style="background-color: rgba(10, 29, 63, 0.705);">
+  <div class="container" style="background-color: rgba(8, 67, 170, 0.705); border-radius:5px;">
     <!-- Form tìm kiếm -->
     <form action="" method="POST">
     <!-- Phòng chống csrf -->
@@ -90,14 +90,7 @@ header {
     border-bottom-left-radius: 4px;
     border-top-right-radius: 4px;">
     <a style="color: white;" href="/stocks">&emsp;Trang chủ&emsp;</a></small>    
-    <!-- Vùng thông báo lỗi -->
-        <div style="font-size: 20px; color: #af3030;"  >
-            {%if message%}
-                {{ message }}
-            {%else%}
-                <br>
-            {% endif%}
-        </div>
+    <div><br></div>  
     <!-- User name -->
 	  <div class="form-group row">
 	    <label class="col-sm-2 col-xs-4 col-form-label">User name:</label>
@@ -120,6 +113,13 @@ header {
 	      <button type="submit" class="btn btn-primary" style = "background: #5c9616">Sign up</button>
 	    </div>
 	  </div>
+        <!-- Vùng thông báo lỗi -->
+        <div style="font-size: 90%; color: #000000;"  >
+            {%if message%}
+                {{ message }}
+            {% endif%}
+        </div>
+        <div><br></div>
 	</form>
 </div>
 </header>
