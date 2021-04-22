@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="csrf_token" content="{{ csrf_token }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -15,10 +16,10 @@
 			position: absolute;
 			left: 30%;
             right: 35%;
-            top: 10%;
+            top: 0.25%;
 			padding: 2%;
 			margin: 2%;
-            background-color: teal;
+            background-color: #1b62a9;
 
 		}
         table {
@@ -53,7 +54,7 @@
             top: 3%;
             padding: 2%;
             margin: 2%;
-            background-color: teal;
+            background-color: #1b62a9;
 
             }
             .center {
@@ -79,39 +80,53 @@
 	</style>
 </head>
 <body>
-	<div class="tableSellBuy">
-        <div class="title">
-            <b>MH Mua</b>
+        <div class="tableSellBuy">
+            <div class="title">
+                <b>MH Mua</b>
+            </div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Số dư hiện tại</th>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>Mã cổ phiếu</th>
+                    <td>Giá</td>
+                    <td>Số lượng</td>
+                </tr>
+                <tr>
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <td>
+                            <select onchange="this.form.submit()" class="small" id="stocks" name="stocks">
+                                {% if stocks %}
+                                    {% for stock in list_stocks %}
+                                        <option selected="selected" value="{{ stocks }}">{{ stocks }}</option>
+                                        <option value="{{ stock }}">{{ stock }}</option>
+                                    {% endfor %}
+                                {% else %}
+                                    {% for stock in list_stocks %}
+                                        <option value="{{ stock }}">{{ stock }}</option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                        </td>
+                        {% if stocks%}
+                        <td>{{current_price}}</td>
+                        {%else%}
+                        <td>No</td>
+                        {%endif%}
+                        <td>
+                            <input style="color: black; padding-bottom: 2%; padding-top: 2%;" type="number" value="0" min="0" max="99999999" step="10"/>
+                        </td>
+                    </form>
+                </tr>
+            </table>
+            <div class="center">        
+                <button type="submit" class="btn btn-success">Thực hiện giao dịch</button>
+            </div>
         </div>
-        <table class="table table-bordered">
-            <tr>
-                <th>Số dư hiện tại</th>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <th>Mã cổ phiếu</th>
-                <td>Giá</td>
-                <td>Số lượng</td>
-            </tr>
-            <tr>
-                <td>
-                    <select class="small" id="cars" name="cars">
-                        {% for stocks in list_stocks %}
-                            <option value="{{ stocks }}">{{ stocks }}</option>
-                        {% endfor %}
-                    </select>
-                </td>
-                <td>50000</td>
-                <td>
-                    <input style="color: black; padding-bottom: 2%; padding-top: 2%;" type="number" value="0" min="0" max="99999999" step="10"/>
-                </td>
-            </tr>
-        </table>
-        <div class="center">        
-            <button type="submit" class="btn btn-success">Thực hiện giao dịch</button>
-        </div>
-    </div>
 </body>
 </html>
 
