@@ -25,27 +25,16 @@ def buy_stocks(request):
     if request.session.get('date_update','') != "":        
         del request.session['date_update'] 
     # Lấy ra data từ CSDL để hiển thị ở MH danh sách
-    company_list_db = Company.objects.order_by('-efficiency_level')  
+    company_list_db = Company.objects.order_by('-efficiency_level')
     list_stocks = []
+    list_current_price = []
     template = loader.get_template('stocks/buy_stock.html')
-    current_price = ""
     for company in company_list_db:
-        if company.stocks == stock:
-            current_price = company.current_price
-        else:
-            list_stocks.append(company.stocks)
-    # Lấy số lượng cổ phiếu có thể mua
-    count = 0
-    if (stock != "" and capital_company != "" and current_price != ""):
-        tmp = int (capital_company/current_price)
-        while (tmp%10 != 0):
-            tmp-=1
-        count = tmp
+        list_stocks.append(company.stocks)
+        list_current_price.append(company.current_price)
     context = {
-        'current_price': current_price,
+        'list_current_price': list_current_price,
         'list_stocks': list_stocks,
-        'stock': stock,
         'capital_company': capital_company,
-        'count': count,
     }
     return HttpResponse(template.render(context, request))

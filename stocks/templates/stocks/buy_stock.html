@@ -31,9 +31,9 @@
             background-color: whitesmoke;
         }
         .small {
-            padding-bottom: 2%;
-            padding-right: 77%;
-            padding-top: 2%;
+            padding-bottom: 3%;
+            padding-right: 30%;
+            padding-top: 3%;
         }
         .center {
             margin-left: 35%;
@@ -49,7 +49,7 @@
             padding-top: 1%;
             padding-left: 2%;
         }
-        @media only screen and (max-width: 1830px) {
+        @media only screen and (max-width: 1270px) {
             .tableSellBuy{
 			border: 1px solid #BDBDBD;
 			border-radius:5px;
@@ -63,9 +63,9 @@
             margin-left: 25%;
             }
             .small {
-            padding-bottom: 2%;
-            padding-right: 60%;
-            padding-top: 2%;
+            padding-bottom: 7%;
+            padding-right: 10%;
+            padding-top: 7%;
             }
             .title {
             font-size: 100%; 
@@ -90,55 +90,77 @@
             }
         }
 	</style>
+    <script>
+        function GioiThieuBanThan(){
+            var stock = ""+document.getElementById('stock').value
+            var capital = document.getElementById('capital');
+            var list_current_price = document.getElementById('list_current_price').value;
+            var list_stocks = document.getElementById('list_stocks').value;
+            var count_stocks = document.getElementById('count_stocks');
+            var capital_company = document.getElementById('capital_company')
+            var tmp = 1
+            var i=2
+            while (i<list_stocks.length) {
+                if (stock == (list_stocks[i] + list_stocks[i+1] + list_stocks[i+2] +"       " )){
+                    i = list_stocks.length
+                } else {
+                    tmp+=5
+                }
+                i+=14
+            }
+            capital.value = list_current_price[tmp] + list_current_price[tmp+1] + list_current_price[tmp+2];
+            if (capital_company.value != "" && capital.value != "") {
+                tmp_c = parseInt (parseInt(capital_company.value)/parseInt(capital.value))
+                while (tmp_c%10 != 0){
+                    tmp_c-=1
+                }
+                count_stocks.value = tmp_c
+            }
+        }
+    </script>
 </head>
 <body>
     <header>
         <div class="tableSellBuy">
-            <div class="title">
-                <b>MH Mua</b>
-            </div>
-            <table class="table table-bordered">
-                <tr>
-                    <th>Số dư hiện tại</th>
-                    <td colspan="2">{{capital_company}}(VNĐ)</td>
-                </tr>
-                <tr>
-                    <th>Mã cổ phiếu</th>
-                    <td>Giá</td>
-                    <td>Số lượng</td>
-                </tr>
-                <tr>
-                    <form action="{% url 'stocks:buy_stocks' %}" method="POST">
-                        {% csrf_token %}
+            <form action="{% url 'stocks:buy_stocks' %}" method="POST">
+            {% csrf_token %}
+                <div class="title">
+                    <b>MH Mua</b>
+                </div>
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Số dư hiện tại</th>
+                        <td colspan="2">{{capital_company}}(VNĐ)</td>
+                    </tr>
+                    <tr>
+                        <th>Mã cổ phiếu</th>
+                        <td>Giá</td>
+                        <td>Số lượng</td>
+                    </tr>
+                    <tr>
                         <td>
-                            <select onchange="this.form.submit()" class="small" id = "stock" name = "stock">
-                                {% if stock != "" %}
-                                    <option selected="selected" value="{{ stock }}">{{ stock }}</option>
-                                    {% for company_stock in list_stocks %}
-                                        <option value="{{ company_stock }}">{{ company_stock }}</option>
-                                    {% endfor %}
-                                {% else %}
-                                    <option value="">---</option>
+                            <select onchange="GioiThieuBanThan()" class="small" id = "stock" name = "stock">
+                                <option value="">---</option>
+                                {% if list_stocks %}
                                     {% for company_stock in list_stocks %}
                                         <option value="{{ company_stock }}">{{ company_stock }}</option>
                                     {% endfor %}
                                 {% endif %}
                             </select>
                         </td>
-                        {% if stock != "" %}
-                            <td>{{current_price}}</td>
-                        {%else%}
-                            <td>No</td>
-                        {%endif%}
+                        <input type="hidden" id="capital_company" value="{{capital_company}}">
+                        <input type="hidden" id="list_current_price" value="{{list_current_price}}">
+                        <input type="hidden" id="list_stocks" value="{{list_stocks}}">
+                        <td><input type="text" disabled id = "capital" name = "capital"/></td>
                         <td>
-                            <input style="color: black; padding-bottom: 1%; padding-top: 1%;" type="number" value="{{count}}" min="0" max="99999999" step="10"/>
+                            <input style="color: black; padding-bottom: 1%; padding-top: 1%;" type="number" id = "count_stocks" name= "count_stocks" value="0" min="0" max="99999999" step="10"/>
                         </td>
-                    </form>
-                </tr>
-            </table>
-            <div class="center">        
-                <button type="submit" class="btn btn-primary" style = "background: #4b8505">Thực hiện giao dịch</button>
-            </div>
+                    </tr>
+                </table>
+                <div class="center">        
+                    <button type="submit" class="btn btn-primary" style = "background: #4b8505">Thực hiện giao dịch</button>
+                </div>
+            </form>
         </div>
     </header>
 </body>
