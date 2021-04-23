@@ -91,7 +91,7 @@
         }
 	</style>
     <script>
-        function GioiThieuBanThan(){
+        function handleInformationSellStock(){
             var stock = ""+document.getElementById('stock').value
             var capital = document.getElementById('capital');
             var list_current_price = document.getElementById('list_current_price').value;
@@ -139,7 +139,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <select onchange="GioiThieuBanThan()" class="small" id = "stock" name = "stock">
+                            <select onchange="handleInformationSellStock()" class="small" id = "stock" name = "stock">
                                 <option selected value="" disabled>---</option>
                                 {% if list_stocks %}
                                     {% for company_stock in list_stocks %}
