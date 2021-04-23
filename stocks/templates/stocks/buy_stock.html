@@ -140,7 +140,7 @@
                     <tr>
                         <td>
                             <select onchange="GioiThieuBanThan()" class="small" id = "stock" name = "stock">
-                                <option value="">---</option>
+                                <option selected value="" disabled>---</option>
                                 {% if list_stocks %}
                                     {% for company_stock in list_stocks %}
                                         <option value="{{ company_stock }}">{{ company_stock }}</option>
