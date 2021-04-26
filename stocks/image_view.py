@@ -1,16 +1,13 @@
-from django.http import HttpResponse, Http404, HttpResponseRedirect, JsonResponse
-from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from .forms import *
 from django.template import loader
-from django.urls import reverse
-from datetime import datetime
 from .models import Company, User
-import io,csv
-from django.shortcuts import redirect
-
 from .company_view import CompanyView
 
-# Xử lí hiển thị MH danh sách công ty
-def index(request):
+  
+# Create your views here.
+def image_view(request):
     try:
         # Kiểm tra login
         username=request.session.get('member_id', '')
@@ -27,17 +24,27 @@ def index(request):
         for index in range(len(company_list_view)):
             company_list_view[index].id=index+1
         context = {}
+        if username != "" :
+            update = User.objects.filter(user_name=username).update(avatar=request.FILES.get('avatar', ""))
         # Lấy ra thông tin user từ DB
-        user = User.objects.filter(user_name=username)    
+        user = User.objects.filter(user_name=username)
         if len(user) != 0:
             for user in user:
-                avatar = user.avatar            
+                avatar = user.avatar
         context = {
             'username':username,
             'company_list_view': company_list_view,
-            'user': user,
             'avatar': avatar
-        }  
+        }   
+        if request.method == 'POST':
+            form = ImageForm(request.POST, request.FILES)
+            if form.is_valid():
+                form.save()
+        else:
+            form = ImageForm()
+            return render(request, 'stocks/image_form.html', {'form' : form})
     except Company.DoesNotExist:
         raise Http404('Company does not exist')
+    except Exception:
+        return HttpResponse(template.render(context, request))   
     return HttpResponse(template.render(context, request))   

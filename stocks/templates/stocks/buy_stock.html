@@ -93,6 +93,7 @@
         }
 	</style>
     <script>
+        // Xử lí khi thay đổi select stocks
         function handleInformationSellStock(){
             var stock = ""+document.getElementById('stock').value
             var capital = document.getElementById('capital');
@@ -160,7 +161,7 @@
                         <input type="hidden" id="capital_company" value="{{capital_company}}">
                         <input type="hidden" id="list_current_price" value="{{list_current_price}}">
                         <input type="hidden" id="list_stocks" value="{{list_stocks}}">
-                        <td><input type="text" disabled id = "capital" name = "capital"/></td>
+                        <td><input type="text" disabled id = "capital" name = "capital" value="0"/></td>
                         <td>
                             <input style="color: black; padding-bottom: 1%; padding-top: 1%;" type="number" id = "count_stocks" name= "count_stocks" value="0" min="0" max="99999999" step="10"/>
                         </td>

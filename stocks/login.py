@@ -33,13 +33,15 @@ def login(request):
                 'message': message
             }
             return HttpResponse(template.render(context, request))
-        # Nếu user có tồn tại trong CSDL thì qua trở về MH danh sách lưu trạng thái đã đăng nhập lên session
+        # Nếu user có tồn tại trong CSDL thì quay trở về MH danh sách lưu trạng thái đã đăng nhập lên session
         else:
             username = ""
             context ={}
             for user in user:
                 username = user.user_name
                 request.session['member_id'] = user.user_name
+                # Lấy thông tin avatar set hiển thị
+                avatar = user.avatar  
             try:
                 company_list_db = Company.objects.order_by('-efficiency_level')
                 template = loader.get_template('stocks/index.html')
@@ -53,11 +55,12 @@ def login(request):
                 if username != "" :
                     log = 1
                 else: 
-                    log = 0               
+                    log = 0              
                 context = {
                     'log': log,
                     'username': username,
                     'company_list_view': company_list_view,
+                    'avatar':avatar
                 }  
             except Company.DoesNotExist:
                 raise Http404('Company does not exist')

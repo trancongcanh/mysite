@@ -26,5 +26,6 @@ class User(models.Model):
     password = models.CharField(max_length=16)
     # Vốn cá nhân
     capital = models.CharField(max_length=50)
-
+    # Avatar
+    avatar = models.ImageField(upload_to='')
 

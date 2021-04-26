@@ -63,18 +63,21 @@ def search(request):
         # Get ra template theo đường dẫn tương ứng để set hiển thị
         template = loader.get_template('stocks/index.html')
         if username != "" :
-            log = 1
+            user = User.objects.filter(user_name=username)    
+            if len(user) != 0:
+                for user in user:
+                    avatar = user.avatar
         else: 
-            log = 0
+            avatar="1"
         # Tạo 1 Dictionary đưa lên template hiển thị 
         context = {
-            'log': log,
             'username': username,
             'date_update_view': date_update,
             'len_company': len_company,
             'count_record_view': count_company,
             'company_capital_view': company_capital,
             'company_list_view': company_list_view,
+            'avatar': avatar
         }
     except (KeyError, Company.DoesNotExist):
         raise Http404('Company does not exist')
@@ -106,12 +109,14 @@ def search(request):
         # Get ra template theo đường dẫn tương ứng để set hiển thị
         template = loader.get_template('stocks/index.html')
         if username != "" :
-            log = 1
+            user = User.objects.filter(user_name=username)    
+            if len(user) != 0:
+                for user in user:
+                    avatar = user.avatar
         else: 
-            log = 0
+            avatar="1"
         # Tạo 1 Dictionary đưa lên template hiển thị 
         context = {
-            'log': log,
             'date_update_view': date_update,                    
             'count_record_view': count_company,
             'company_capital_view': company_capital,
@@ -119,6 +124,8 @@ def search(request):
             'message2': message2,
             'message3': message3,
             'company_list_view': company_list_view,
+            'avatar':avatar,
+            'username': username,
         }
 
     # Trả về dữ liệu hiển thị trên tempalte

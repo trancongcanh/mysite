@@ -27,14 +27,12 @@ def logout(request):
         for index in range(len(company_list_view)):
             company_list_view[index].id=index+1
         context = {}
-        log = 0
         context = {
-            'log': log,
+            'username': "",
             'company_list_view': company_list_view,
         }  
     except Company.DoesNotExist:
         raise Http404('Company does not exist')
-
     except KeyError:
         pass
     return HttpResponse(template.render(context, request))  
