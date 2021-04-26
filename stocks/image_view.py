@@ -28,6 +28,7 @@ def image_view(request):
             update = User.objects.filter(user_name=username).update(avatar=request.FILES.get('avatar', ""))
         # Lấy ra thông tin user từ DB
         user = User.objects.filter(user_name=username)
+        avatar = "1"
         if len(user) != 0:
             for user in user:
                 avatar = user.avatar

@@ -37,6 +37,7 @@ def login(request):
         else:
             username = ""
             context ={}
+            avatar = "1"
             for user in user:
                 username = user.user_name
                 request.session['member_id'] = user.user_name
@@ -51,13 +52,8 @@ def login(request):
                     company_view = CompanyView(0, company.stocks, company.company_name, company.company_cap, company.current_price, company.r_o_a, company.p_e, company.efficiency_level, company.date_update)
                     company_list_view.append(company_view)
                 for index in range(len(company_list_view)):
-                    company_list_view[index].id=index+1
-                if username != "" :
-                    log = 1
-                else: 
-                    log = 0              
+                    company_list_view[index].id=index+1            
                 context = {
-                    'log': log,
                     'username': username,
                     'company_list_view': company_list_view,
                     'avatar':avatar

@@ -27,6 +27,7 @@ def index(request):
         for index in range(len(company_list_view)):
             company_list_view[index].id=index+1
         context = {}
+        avatar = "1"
         # Lấy ra thông tin user từ DB
         user = User.objects.filter(user_name=username)    
         if len(user) != 0:
