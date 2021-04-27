@@ -25,7 +25,7 @@ def image_view(request):
             company_list_view[index].id=index+1
         context = {}
         if username != "" :
-            update = User.objects.filter(user_name=username).update(avatar=request.FILES.get('avatar', ""))
+            update = User.objects.filter(user_name=username).update(avatar=request.FILES.get('avatar', "1"))
         # Lấy ra thông tin user từ DB
         user = User.objects.filter(user_name=username)
         avatar = "1"

@@ -2,11 +2,22 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect, JsonRespons
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template import loader
 from django.urls import reverse
-from datetime import datetime
+from datetime import datetime, timedelta
 from .models import Company, User
 from django.shortcuts import redirect
+from django.conf import settings
 
 def sell_stocks(request):
+    # Kiểm tra session time out        
+    if datetime.now() - request.session['last_touch'] > timedelta( 0, settings.AUTO_LOGOUT_DELAY * 60, 0):
+        member_id = request.session.get('member_id',"")
+        last_touch = request.session.get('last_touch',"")
+        if member_id != "" and last_touch != "":
+            del request.session['member_id']
+            del request.session['last_touch']
+        return render(request, 'stocks/login_user.html', {})
+    else:
+        request.session['last_touch'] = datetime.now()
     # Get dữ liệu từ session
     username=request.session.get('member_id', '')
     # Thực hiện xóa các điều kiện tìm kiếm (nếu có) ở MH danh sách hiện tại trên session

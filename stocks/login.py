@@ -2,9 +2,10 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect, JsonRespons
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template import loader
 from django.urls import reverse
-from datetime import datetime
 from .models import Company, User
 from django.shortcuts import redirect
+from datetime import datetime, timedelta
+from django.conf import settings
 
 from .company_view import CompanyView
 
@@ -35,6 +36,7 @@ def login(request):
             return HttpResponse(template.render(context, request))
         # Nếu user có tồn tại trong CSDL thì quay trở về MH danh sách lưu trạng thái đã đăng nhập lên session
         else:
+            request.session['last_touch'] = datetime.now()
             username = ""
             context ={}
             avatar = "1"
