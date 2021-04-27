@@ -15,7 +15,7 @@ def sell_stocks(request):
         if member_id != "" and last_touch != "":
             del request.session['member_id']
             del request.session['last_touch']
-        return render(request, 'stocks/login_user.html', {})
+        return redirect("http://127.0.0.1:8000/stocks/login/")
     else:
         request.session['last_touch'] = datetime.now()
     # Get dữ liệu từ session
