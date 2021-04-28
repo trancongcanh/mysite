@@ -4,93 +4,13 @@
 <head>
 <title>Stocks Company</title>
 <meta charset="utf-8">
+<link rel="stylesheet" href="../css/style.css" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
 <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
-
-<style>
-* {
-  box-sizing: border-box;
-}
-
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-/* Style the header */
-header {
-  background-color: #1b62a9	;
-  padding: 1.5%;
-  /*text-align: center;*/
-  font-size: 150%;
-  color: white;
-}
-#table {
-  overflow-x: auto;
-}
-
-table {
-	font-size: 110%;
-	padding: 1%;
-}
-
-.messages {
-    font-size: 100%; 
-    color: #df2f2f;
-}
-
-.backgreen {
-	background: #a9c38a
-}
-.numberTextAlign {
-	text-align: right
-}
-article {
-  float: left;
-  padding: 1%;
-  width: 70%;
-  background-color: #f1f1f1;
-  height: 300px; /* only for demonstration, should be removed */
-}
-
-/* Clear floats after the columns */
-section::after {
-  content: "";
-  display: table;
-  padding-top: 30px;
-  clear: both;
-}
-
-
-/* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
-@media (max-width: 600px) {
-  nav, article {
-    width: 100%;
-    height: auto;
-  }
-}
-@media only screen and (max-width: 600px) {
-  /* Style the header */
-header {
-  background-color: #1b62a9	;
-  padding: 1.5%;
-  padding-top: 5%;
-  /*text-align: center;*/
-  font-size: 100%;
-  color: white;
-  
-}
-::placeholder {
-    font-size: 90%;
-}
-}
-.right {
-    float: right;
-  }
-</style>
 </head>
 <body>
 <header>
@@ -132,9 +52,9 @@ header {
     </div>
     <!-- Tìm kiếm theo vốn công ty -->
 	  <div class="form-group row">
-	    <label class="col-sm-3 col-xs-5 col-form-label">Vốn công ty (Tỷ VNĐ):</label>
+	    <label class="col-sm-3 col-xs-5 col-form-label">Giá trị công ty (VNĐ):</label>
 	    <div class="col-sm-7 col-xs-5">
-	      <input type="text" class="form-control" id="company_cap" name="company_cap" value="{{company_capital_view}}" placeholder="Nhập số vốn công ty">
+	      <input type="text" class="form-control" id="company_value" name="company_value" value="{{company_value_view}}" placeholder="Nhập số vốn công ty">
 	    </div>
 	  </div>
     <!-- Số lượng cty muốn tìm kiếm -->
@@ -199,29 +119,27 @@ header {
     <thead>
       <tr style = "background: #5c9616">
         <th scope="col">No</th>
-        <th scope="col">Mã cổ phiếu</th>
-        <th scope="col">Tên công ty</th>
-        <th scope="col">Vốn công ty (VNĐ)</th>
-        <th scope="col">Giá hiện tại</th>
+        <th scope="col">Stocks</th>
+        <th scope="col">Company Value</th>
+        <th scope="col">Current Price</th>
         <th scope="col">ROA(%)</th>
-        <th scope="col">PE</th>
-        <th scope="col">Mức độ hiệu quả</th>
+        <th scope="col">P/E</th>
+        <th scope="col">Magic Formula</th>
         <th scope="col" colspan="2" style="min-width: 4cm;">Mua/bán</th>
       </tr>
     </thead>
     <tbody>
-      {% if company_list_view %}
-          {% for company in company_list_view %}
-              {% if len_company == 1  %}
-                  <tr>
+        {% if company_list_view %}
+            {% for company in company_list_view %}
+                {% if len_company == 1  %}
+                    <tr>
                         <td scope="row">{{company.id}}</td>
                         <td>{{company.stocks}}</td>
-                        <td>{{company.company_name}}</td>
-                        <td>{{company.company_cap}}</td>
+                        <td>{{company.company_value}}</td>
                         <td>{{company.current_price}}</td>
                         <td>{{company.r_o_a}}</td>
                         <td>{{company.p_e}}</td>
-                        <td>{{company.efficiency_level}}</td>
+                        <td>{{company.magic_formula}}</td>
                         {% if username == "" %}
                             <td><small style="  background-color: #939491; 
                                 border-top-left-radius: 4px;
@@ -259,15 +177,14 @@ header {
                         {% endif %}  
                     </tr> 
               {% else %}   
-                  <tr class="backgreen">
+                    <tr class="backgreen">
                         <td scope="row">{{company.id}}</td>
                         <td>{{company.stocks}}</td>
-                        <td>{{company.company_name}}</td>
-                        <td>{{company.company_cap}}</td>
+                        <td>{{company.company_value}}</td>
                         <td>{{company.current_price}}</td>
                         <td>{{company.r_o_a}}</td>
-                        <td>{{company.p_e}}</td>
-                        <td>{{company.efficiency_level}}</td>
+                        <td>{{company.p_or_e}}</td>
+                        <td>{{company.magic_formula}}</td>
                         {% if username == "" %}
                             <td><small style="  background-color: #939491; 
                                 border-top-left-radius: 4px;
@@ -304,9 +221,9 @@ header {
                             <a style="color: rgb(0, 0, 0); text-decoration: none;" href="/stocks/sell_stocks">&emsp;Bán&emsp;</a></small></td>                             
                         {% endif %}                 
                     </tr>
-              {% endif %}
-          {% endfor %}
-      {% else %}
+                {% endif %}
+            {% endfor %}
+        {% else %}
                   <tr>
                       <td colspan="9" align="center" >
                           Không có thông tin công ty cần tìm kiếm.

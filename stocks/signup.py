@@ -10,8 +10,8 @@ from django.shortcuts import redirect
 # Xử lí sign up
 def signup(request):
     # Thực hiện xóa các điều kiện tìm kiếm (nếu có) ở MH danh sách hiện tại trên session
-    if request.session.get('company_cap','') != "":
-        del request.session['company_cap'] 
+    if request.session.get('company_value','') != "":
+        del request.session['company_value'] 
     if request.session.get('count_company','') != "":
         del request.session['count_company'] 
     if request.session.get('date_update','') != "":        

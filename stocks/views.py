@@ -14,26 +14,30 @@ from .company_view import CompanyView
 # Xử lí hiển thị MH danh sách công ty
 def index(request):
     try:
-        # Kiểm tra session time out        
-        if datetime.now() - request.session['last_touch'] > timedelta( 0, settings.AUTO_LOGOUT_DELAY * 60, 0):
-            member_id = request.session.get('member_id',"")
-            last_touch = request.session.get('last_touch',"")
-            if member_id != "" and last_touch != "":
-                del request.session['member_id']
+        # Kiểm tra session time out 
+        if request.session.get('last_touch',"") != "" :
+            if datetime.now() - request.session['last_touch']> timedelta( 0, settings.AUTO_LOGOUT_DELAY * 60, 0):
+                member_id = request.session.get('member_id',"")
                 del request.session['last_touch']
+                if member_id != "":
+                    del request.session['member_id']
+            else:
+                request.session['last_touch'] = datetime.now()
         else:
-            request.session['last_touch'] = datetime.now()
+            member_id = request.session.get('member_id',"")
+            if member_id != "":
+                del request.session['member_id']
         # Kiểm tra login
         username=request.session.get('member_id', '')
         log = 0
         # Lấy ra data từ CSDL để hiển thị ở MH danh sách
-        company_list_db = Company.objects.order_by('-efficiency_level')
+        company_list_db = Company.objects.order_by('-magic_formula')
         # Lấy template hiển thị
         template = loader.get_template('stocks/index.html')
         # Tạo danh sách đối tượng company mới có thuộc tính index để hiển thị STT table
         company_list_view = []
         for company in company_list_db:
-            company_view = CompanyView(0, company.stocks, company.company_name, company.company_cap, company.current_price, company.r_o_a, company.p_e, company.efficiency_level, company.date_update)
+            company_view = CompanyView(0, company.stocks, company.current_price, company.p_or_e, company.company_value, company.r_o_a, company.magic_formula, company.date_update)
             company_list_view.append(company_view)
         for index in range(len(company_list_view)):
             company_list_view[index].id=index+1
