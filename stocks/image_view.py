@@ -4,6 +4,8 @@ from .forms import *
 from django.template import loader
 from .models import Company, User
 from .company_view import CompanyView
+from datetime import datetime, timedelta
+from django.conf import settings
 
   
 # Create your views here.

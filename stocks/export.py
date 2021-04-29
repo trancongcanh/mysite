@@ -2,11 +2,12 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect, JsonRespons
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template import loader
 from django.urls import reverse
-from datetime import datetime
 from .models import Company, User
 import io,csv
 from django.shortcuts import redirect
 from .common import change_format_date_update
+from datetime import datetime, timedelta
+from django.conf import settings
 
 # Xử lí export file csv
 def export_csv(request):
