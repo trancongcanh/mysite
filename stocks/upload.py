@@ -18,14 +18,14 @@ def profile_upload(request):
                 del request.session['last_touch']
                 if member_id != "":
                     del request.session['member_id']
-                    return redirect("http://127.0.0.1:8000/stocks/login/")
+                    return redirect("stocks:login")
             else:
                 request.session['last_touch'] = datetime.now()
         else:
             member_id = request.session.get('member_id',"")
             if member_id != "":
                 del request.session['member_id']
-                return redirect("http://127.0.0.1:8000/stocks/login/")      
+                return redirect("stocks:login")
         # Lấy mẫu template
         template = 'stocks/profile_upload.html'
         data = Company.objects.all()
