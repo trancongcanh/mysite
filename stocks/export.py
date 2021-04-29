@@ -10,6 +10,19 @@ from .common import change_format_date_update
 
 # Xử lí export file csv
 def export_csv(request):
+    # Kiểm tra session time out        
+    if request.session.get('last_touch',"") != "" :
+        if datetime.now() - request.session['last_touch']> timedelta( 0, settings.AUTO_LOGOUT_DELAY * 60, 0):
+            member_id = request.session.get('member_id',"")
+            del request.session['last_touch']
+            if member_id != "":
+                del request.session['member_id']
+        else:
+            request.session['last_touch'] = datetime.now()
+    else:
+        member_id = request.session.get('member_id',"")
+        if member_id != "":
+            del request.session['member_id']
     # Get điều kiện tìm kiếm từ session nếu có để thực hiện export data tương ứng
     company_value = request.session.get("company_value", "")
     count_company = request.session.get('count_company', "")

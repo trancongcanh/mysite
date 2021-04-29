@@ -9,6 +9,21 @@ from .company_view import CompanyView
 # Create your views here.
 def image_view(request):
     try:
+        # Kiểm tra session time out        
+        if request.session.get('last_touch',"") != "" :
+            if datetime.now() - request.session['last_touch']> timedelta( 0, settings.AUTO_LOGOUT_DELAY * 60, 0):
+                member_id = request.session.get('member_id',"")
+                del request.session['last_touch']
+                if member_id != "":
+                    del request.session['member_id']
+                    return redirect("stocks:login")
+            else:
+                request.session['last_touch'] = datetime.now()
+        else:
+            member_id = request.session.get('member_id',"")
+            if member_id != "":
+                del request.session['member_id']
+                return redirect("stocks:login")          
         # Kiểm tra login
         username=request.session.get('member_id', '')
         log = 0
@@ -24,7 +39,7 @@ def image_view(request):
         for index in range(len(company_list_view)):
             company_list_view[index].id=index+1
         context = {}
-        if username != "" :
+        if username != "" and request.method == 'POST':
             update = User.objects.filter(user_name=username).update(avatar=request.FILES.get('avatar', "1"))
         # Lấy ra thông tin user từ DB
         user = User.objects.filter(user_name=username)
@@ -36,7 +51,7 @@ def image_view(request):
             'username':username,
             'company_list_view': company_list_view,
             'avatar': avatar
-        }   
+        } 
         if request.method == 'POST':
             form = ImageForm(request.POST, request.FILES)
             if form.is_valid():
