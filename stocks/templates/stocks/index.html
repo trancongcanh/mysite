@@ -33,13 +33,13 @@
                                 <a style="color: white; text-decoration: none;" href="/stocks/logout">&emsp;Logout&emsp;</a></small>
                                 {% if avatar == "1" %}
                                     <p>
-                                        <img src="http://thuthuatphanmem.vn/uploads/2018/04/10/avatar-den-1_051422423.png" style="width: 15%;" onclick="clickAvatar();" />
-                                        <input type="file" name="" id="avatar" style="display: none;">
-                                        <!-- <a href="/stocks/image_upload" style="border-radius: 5px 5px 5px 5px; text-decoration: none;"><img src="http://thuthuatphanmem.vn/uploads/2018/04/10/avatar-den-1_051422423.png" style="width: 15%;" /></a> -->
+                                        <!-- <img src="http://thuthuatphanmem.vn/uploads/2018/04/10/avatar-den-1_051422423.png" style="width: 15%;" onclick="clickAvatar();" />
+                                        <input type="file" name="" id="avatar" style="display: none;"> -->
+                                        <a href="/stocks/image_upload" style="border-radius: 5px 5px 5px 5px; text-decoration: none;"><img src="http://thuthuatphanmem.vn/uploads/2018/04/10/avatar-den-1_051422423.png" style="border-radius: 29px 29px 29px 29px;  width: 60px;height:60px;" /></a>
                                     </p>
                                 {% else %}
                                     <p>
-                                        <a href="/stocks/image_upload " style="text-decoration: none;"><img src="{{ avatar.url }}" style="width: 8%;" /></a>
+                                        <a href="/stocks/ " style="text-decoration: none;"><img src="{{ avatar.url }}" style="border-radius: 29px 29px 29px 29px;  width: 60px;height:60px;" /></a>
                                     </p>
                                 {% endif %}        
                 {% else %}
