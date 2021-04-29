@@ -2,9 +2,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+{% load staticfiles %}
 <title>Stocks Company</title>
 <meta charset="utf-8">
-<link rel="stylesheet" href="../css/style.css" />
+<link rel="stylesheet" href="../../../static/css/style.css" type="text/css" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -32,7 +33,9 @@
                                 <a style="color: white; text-decoration: none;" href="/stocks/logout">&emsp;Logout&emsp;</a></small>
                                 {% if avatar == "1" %}
                                     <p>
-                                        <a href="/stocks/image_upload" style="border-radius: 5px 5px 5px 5px; text-decoration: none;"><img src="http://thuthuatphanmem.vn/uploads/2018/04/10/avatar-den-1_051422423.png" style="width: 15%;" /></a>
+                                        <img src="http://thuthuatphanmem.vn/uploads/2018/04/10/avatar-den-1_051422423.png" style="width: 15%;" onclick="clickAvatar();" />
+                                        <input type="file" name="" id="avatar" style="display: none;">
+                                        <!-- <a href="/stocks/image_upload" style="border-radius: 5px 5px 5px 5px; text-decoration: none;"><img src="http://thuthuatphanmem.vn/uploads/2018/04/10/avatar-den-1_051422423.png" style="width: 15%;" /></a> -->
                                     </p>
                                 {% else %}
                                     <p>
@@ -233,5 +236,12 @@
     </tbody>
   </table> 
 </div>
+<script>
+    const clickAvatar = () => {
+        let img = document.getElementById('avatar')
+        img.click()
+        console.log(img);
+    }
+</script>
 </body>
 </html>
