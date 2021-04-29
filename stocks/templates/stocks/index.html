@@ -15,11 +15,6 @@
 </head>
 <body>
 <header>
-  <div class="container">
-    <!-- Form tìm kiếm -->
-    <form action="{% url 'stocks:search' %}" method="POST">
-    <!-- Phòng chống csrf -->
-    {% csrf_token %}
     <div class="form-group row">
         <div class="right" >
             <div class="col-sm-15">
@@ -53,6 +48,11 @@
             </div>
         </div>
     </div>
+  <div class="container">
+    <!-- Form tìm kiếm -->
+    <form action="{% url 'stocks:search' %}" method="POST">
+    <!-- Phòng chống csrf -->
+    {% csrf_token %}
     <!-- Tìm kiếm theo vốn công ty -->
 	  <div class="form-group row">
 	    <label class="col-sm-3 col-xs-5 col-form-label">Giá trị công ty (VNĐ):</label>
