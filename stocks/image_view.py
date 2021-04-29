@@ -11,6 +11,9 @@ from django.conf import settings
 # Create your views here.
 def image_view(request):
     try:
+        # Lấy template hiển thị
+        template = loader.get_template('stocks/index.html')
+        context = {}
         # Kiểm tra session time out        
         if request.session.get('last_touch',"") != "" :
             if datetime.now() - request.session['last_touch']> timedelta( 0, settings.AUTO_LOGOUT_DELAY * 60, 0):
@@ -31,8 +34,6 @@ def image_view(request):
         log = 0
         # Lấy ra data từ CSDL để hiển thị ở MH danh sách
         company_list_db = Company.objects.order_by('-magic_formula')
-        # Lấy template hiển thị
-        template = loader.get_template('stocks/index.html')
         # Tạo danh sách đối tượng company mới có thuộc tính index để hiển thị STT table
         company_list_view = []
         for company in company_list_db:
@@ -40,7 +41,6 @@ def image_view(request):
             company_list_view.append(company_view)
         for index in range(len(company_list_view)):
             company_list_view[index].id=index+1
-        context = {}
         if username != "" and request.method == 'POST':
             update = User.objects.filter(user_name=username).update(avatar=request.FILES.get('avatar', "1"))
         # Lấy ra thông tin user từ DB
