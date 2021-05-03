@@ -42,33 +42,33 @@ def search(request):
         company_list_view= []
         # Thay đổi format date lấy từ form để thực hiện get data từ Db
         date_update_change_format = change_format_date_update(date_update)
-        # Xử lí các trường hợp với các điều kiện tìm kiếm tương ứng có hoặc không có ngày tìm kiếm, số record
-        if (date_update != "" and count_company !=""):
-            date_update_view = datetime.strptime(date_update_change_format, "%Y-%m-%d")
-            count_record = int(count_company)
-            company_list_db = Company.objects.filter(date_update=date_update_view).order_by('-magic_formula')[:count_record]
-        elif (date_update != "" and count_company ==""):
+        # Xử lí các trường hợp với các điều kiện tìm kiếm tương ứng có hoặc không có ngày tìm kiếm
+        if (date_update != ""):
             date_update_view = datetime.strptime(date_update_change_format, "%Y-%m-%d")
             company_list_db = Company.objects.filter(date_update=date_update_view).order_by('-magic_formula')
-        elif (date_update == "" and count_company !=""):
-            count_record = int(count_company)
-            company_list_db = Company.objects.all().order_by('-magic_formula')[:count_record]
-        elif (date_update == "" and count_company ==""):
+        elif (date_update == ""):
             company_list_db = Company.objects.all().order_by('-magic_formula')
-
         # Tìm kiếm với công ty có số vốn lớn hơn vốn công ty(nếu có) lấy được từ request 
         if (company_value != ""):
-
             company_value_validate = int(company_value) 
             for company in company_list_db :
                 if (int(company.company_value) >= company_value_validate):
                     company_list.append(company)
         else:
             company_list = company_list_db
-        # Tạo danh sách đối tượng company mới có thuộc tính index để hiển thị STT table
-        for company in company_list:
-            company_view = CompanyView(0, company.stocks, company.current_price, company.p_or_e, company.company_value, company.r_o_a, company.magic_formula, company.date_update)
-            company_list_view.append(company_view)
+        # Lấy ra số lượng record mong muốn hiển thị
+        count_record = int(count_company)
+        if count_company != "":
+            # Tạo danh sách đối tượng company mới có thuộc tính index để hiển thị STT table
+            for i in range(0, count_record):
+                company_view = CompanyView(0, company_list[i].stocks, company_list[i].current_price, company_list[i].p_or_e, company_list[i].company_value, company_list[i].r_o_a, company_list[i].magic_formula, company_list[i].date_update)
+                company_list_view.append(company_view)
+        else:
+            # Tạo danh sách đối tượng company mới có thuộc tính index để hiển thị STT table
+            for company in company_list:
+                company_view = CompanyView(0, company.stocks, company.current_price, company.p_or_e, company.company_value, company.r_o_a, company.magic_formula, company.date_update)
+                company_list_view.append(company_view)
+
         # Duyệt các chỉ số hiển thị của mỗi record
         for index in range(len(company_list_view)):
             company_list_view[index].id=index+1
