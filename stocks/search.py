@@ -46,7 +46,7 @@ def search(request):
         if (date_update != ""):
             date_update_view = datetime.strptime(date_update_change_format, "%Y-%m-%d")
             company_list_db = Company.objects.filter(date_update=date_update_view).order_by('-magic_formula')
-        elif (date_update == ""):
+        else:
             company_list_db = Company.objects.all().order_by('-magic_formula')
         # Tìm kiếm với công ty có số vốn lớn hơn vốn công ty(nếu có) lấy được từ request 
         if (company_value != ""):
@@ -57,8 +57,10 @@ def search(request):
         else:
             company_list = company_list_db
         # Lấy ra số lượng record mong muốn hiển thị
-        count_record = int(count_company)
         if count_company != "":
+            count_record = int(count_company)
+            if count_record > len(company_list):
+                count_record = len(company_list)
             # Tạo danh sách đối tượng company mới có thuộc tính index để hiển thị STT table
             for i in range(0, count_record):
                 company_view = CompanyView(0, company_list[i].stocks, company_list[i].current_price, company_list[i].p_or_e, company_list[i].company_value, company_list[i].r_o_a, company_list[i].magic_formula, company_list[i].date_update)
