@@ -54,6 +54,7 @@ def profile_upload(request):
         # setup a stream which is when we loop through each line we are able to handle a data in a stream
         io_string = io.StringIO(data_set)
         next(io_string)
+        id = 9
         for column in csv.reader(io_string, delimiter=',', quotechar="|"):
             _, created = Company.objects.update_or_create(
                 stocks=column[0],
@@ -61,18 +62,19 @@ def profile_upload(request):
                 book_value=column[2],
                 lowest_price_in_52w=column[3],
                 difference=column[4],
-                masses_in_circulation=column[5],
-                company_value=column[6],
+                masses_in_circulation=float(column[5]),
+                company_value=float(column[6]),
                 e_s_p=column[7],
                 r_o_a=column[8],
                 r_o_e=column[9],
                 p_or_e=column[10],
                 p_or_b=column[11],
-                is_big_enough=column[12],
-                is_lowest=column[13],
+                is_big_enough=True,
+                is_lowest=False,
                 magic_formula=column[14],
                 date_update=datetime.now(),
             )
+            
         # Tạo 1 Dictionary đưa lên template hiển thị 
         context = {
         'messages': "Upload file thành công"

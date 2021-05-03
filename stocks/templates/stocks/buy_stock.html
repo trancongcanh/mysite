@@ -37,7 +37,7 @@
             capital.value = "";
             while ( index<list_current_price.length) {
                 if (list_current_price[index] == ","){
-                    index_current_price=+1;
+                    index_current_price+=1;
                 }
                 if (index_current_price == tmp) {
                     if (index_current_price == 0) {
@@ -49,6 +49,7 @@
                 }
                 index++;
             };
+            alert('index_current_price: '+ index_current_price)
             tmp = index_start;
             while (tmp<list_current_price.length) {
                 if (list_current_price[tmp]=="'") {
@@ -62,13 +63,13 @@
                 capital.value += list_current_price[index_start];
                 index_start++;
             };
-            if (capital_company.value != "" && capital.value != "") {
-                tmp_c = parseInt (parseInt(capital_company.value)/parseInt(capital.value))
-                while (tmp_c%10 != 0){
-                    tmp_c-=1
-                }
-                count_stocks.value = tmp_c
-            }
+            // if (capital_company.value != "" && capital.value != "") {
+            //     tmp_c = parseInt (parseInt(capital_company.value)/parseInt(capital.value))
+            //     while (tmp_c%10 != 0){
+            //         tmp_c-=1
+            //     }
+            //     count_stocks.value = tmp_c
+            // }
         }
     </script>
 </head>

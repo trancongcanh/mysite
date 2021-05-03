@@ -1,6 +1,7 @@
 from django.db import models
 #Tạo bảng các công ty và các thuộc tính tương ứng
 class Company(models.Model):
+    id = models.AutoField(primary_key=True)
     # Mã cổ phiếu	
     stocks = models.TextField()
     # Giá trị sổ sách
@@ -16,9 +17,9 @@ class Company(models.Model):
     # Khoảng cách
     difference =  models.DecimalField(decimal_places=2, max_digits=15)
     # Khối lượng lưu thông
-    masses_in_circulation =  models.BigIntegerField()
+    masses_in_circulation =  models.IntegerField()
     # Giá trị công ty
-    company_value =  models.BigIntegerField()
+    company_value =  models.IntegerField()
     # ESP
     e_s_p =  models.DecimalField(decimal_places=2, max_digits=15)
     # ROE

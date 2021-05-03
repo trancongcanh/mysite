@@ -147,4 +147,4 @@ MEDIA_URL = '/media/images/'
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
 # Auto logout delay in minutes
-AUTO_LOGOUT_DELAY = 1 #equivalent to 1 minutes
+AUTO_LOGOUT_DELAY = 5 #equivalent to 1 minutes

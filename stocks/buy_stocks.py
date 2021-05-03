@@ -42,7 +42,7 @@ def buy_stocks(request):
     if request.session.get('date_update','') != "":        
         del request.session['date_update'] 
     # Lấy ra data từ CSDL để hiển thị ở MH danh sách
-    company_list_db = Company.objects.order_by('-magic_formula')
+    company_list_db = Company.objects.order_by('-magic_formula').filter(date_update=datetime.now())
     list_stocks = []
     list_current_price = []
     template = loader.get_template('stocks/buy_stock.html')
