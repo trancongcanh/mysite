@@ -22,6 +22,7 @@
             var capital_company = document.getElementById('capital_company');
             var tmp = 0;
             var i=2;
+            // Tìm vị trí mã cổ phiếu đã chọn trong list cổ phiếu
             while (i<list_stocks.length) {
                 if (stock == (list_stocks[i] + list_stocks[i+1] + list_stocks[i+2])){
                     i = list_stocks.length;
@@ -35,6 +36,8 @@
             var index_start = 0;
             var index_end = 0;
             capital.value = "";
+            // Tìm vị trí của giá tương ứng vs cổ phiếu đã chọn
+            // Xác định đoạn bắt đầu của giá cổ phiếu trong danh sách (là 1 chuỗi string) giá cổ phiếu 
             while ( index<list_current_price.length) {
                 if (list_current_price[index] == ","){
                     index_current_price+=1;
@@ -49,8 +52,8 @@
                 }
                 index++;
             };
-            alert('index_current_price: '+ index_current_price)
             tmp = index_start;
+            // Xác định đoạn kết thúc của giá cổ phiếu trong danh sách (là 1 chuỗi string) giá cổ phiếu 
             while (tmp<list_current_price.length) {
                 if (list_current_price[tmp]=="'") {
                     index_end = tmp - 1
@@ -58,18 +61,19 @@
                 }
                 tmp++;
             };
-
+            // Cắt ra đoạn chứa giá của cố phiếu đã chọn
             while (index_start <= index_end){
                 capital.value += list_current_price[index_start];
                 index_start++;
             };
-            // if (capital_company.value != "" && capital.value != "") {
-            //     tmp_c = parseInt (parseInt(capital_company.value)/parseInt(capital.value))
-            //     while (tmp_c%10 != 0){
-            //         tmp_c-=1
-            //     }
-            //     count_stocks.value = tmp_c
-            // }
+            // Tính toán số lượng cổ phiếu tối đa có thể mua dựa trên vốn còn dư vs giá cổ phiếu muốn mua
+            if (capital_company.value != "" && capital.value != "") {
+                tmp_c = parseInt (parseInt(capital_company.value)/parseInt(capital.value))
+                while (tmp_c%10 != 0){
+                    tmp_c-=1
+                }
+                count_stocks.value = tmp_c
+            }
         }
     </script>
 </head>
