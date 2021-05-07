@@ -14,16 +14,19 @@
 	<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
     <script>
         // Xử lí khi thay đổi select stocks
-        function handleInformationSellStock(){
+        function handleInformationBuyStock(){
             var stock = ""+document.getElementById('stock').value
             var capital = document.getElementById('capital');
             var list_current_price = document.getElementById('list_current_price').value;
             var list_stocks = document.getElementById('list_stocks').value;
             var count_stocks = document.getElementById('count_stocks');
-            var capital_company = document.getElementById('capital_company');
+            var capital_user = document.getElementById('capital_user');
             var tmp = 0;
-            var i=2;
+            var index_count_stock_in_list = 0;
+            var index_count_stock_in_list_start = '';
+            var capital_hidden = document.getElementById('capital_hidden');
             // Tìm vị trí mã cổ phiếu đã chọn trong list cổ phiếu
+            var i=2;
             while (i<list_stocks.length) {
                 if (stock == (list_stocks[i] + list_stocks[i+1] + list_stocks[i+2])){
                     i = list_stocks.length;
@@ -33,47 +36,36 @@
                 i+=7;
             };
             var index_current_price = 0;
-            var index= 0;
-            var index_start = 0;
-            var index_end = 0;
+            var index= 10;
             capital.value = "";
             // Tìm vị trí của giá tương ứng vs cổ phiếu đã chọn
             // Xác định đoạn bắt đầu của giá cổ phiếu trong danh sách (là 1 chuỗi string) giá cổ phiếu 
             while ( index<list_current_price.length) {
                 if (list_current_price[index] == ","){
                     index_current_price+=1;
+                    index += 11;
+                    continue;
                 }
                 if (index_current_price == tmp) {
-                    if (index_current_price == 0) {
-                        index_start = index + 10;
-                    } else {
-                        index_start = index + 11;
+                    if (list_current_price[index]=="'") {
+                        break;
                     }
-                    index = list_current_price.length;
+                    // Cắt ra đoạn chứa giá của cố phiếu đã chọn
+                    capital.value += list_current_price[index];
                 }
                 index++;
             };
-            tmp = index_start;
-            // Xác định đoạn kết thúc của giá cổ phiếu trong danh sách (là 1 chuỗi string) giá cổ phiếu 
-            while (tmp<list_current_price.length) {
-                if (list_current_price[tmp]=="'") {
-                    index_end = tmp - 1
-                    tmp = list_current_price.length
-                }
-                tmp++;
-            };
-            // Cắt ra đoạn chứa giá của cố phiếu đã chọn
-            while (index_start <= index_end){
-                capital.value += list_current_price[index_start];
-                index_start++;
-            };
+            capital_hidden.value = capital.value
             // Tính toán số lượng cổ phiếu tối đa có thể mua dựa trên vốn còn dư vs giá cổ phiếu muốn mua
-            if (capital_company.value != "" && capital.value != "") {
-                tmp_c = parseInt (parseInt(capital_company.value)/parseInt(capital.value))
-                while (tmp_c%10 != 0){
-                    tmp_c-=1
+            if (capital_user.value != "" && capital.value != "") {
+                tmp = parseFloat (parseFloat(capital_user.value)/parseFloat(capital.value))
+                while (parseInt(tmp)%10 != 0){
+                    tmp-=1
                 }
-                count_stocks.value = tmp_c
+                if (parseInt(tmp)*parseFloat(capital.value) >= parseFloat(capital_user.value)) {
+                    tmp-=10
+                }
+                count_stocks.value = parseInt(tmp)
             }
         }
     </script>
@@ -82,21 +74,21 @@
     <header>
         <div class="tableSellBuy">
             <div class="title">
+                <p><small style="  background-color: #4b8505; 
+                border-top-left-radius: 4px;
+                border-bottom-right-radius: 4px;
+                border-bottom-left-radius: 4px;
+                border-top-right-radius: 4px;">
+                <a style="color: white; text-decoration: none;" href="/stocks">&lt; &lt; Trang chủ&emsp;</a></small></p>
                 <b>MH Mua</b>
             </div>
             <div><br></div>
-            <small style="  background-color: #4b8505; 
-            border-top-left-radius: 4px;
-            border-bottom-right-radius: 4px;
-            border-bottom-left-radius: 4px;
-            border-top-right-radius: 4px;">
-            <a style="color: white; text-decoration: none;" href="/stocks">&lt; &lt; Trang chủ&emsp;</a></small> 
             <form action="{% url 'stocks:buy_stocks' %}" method="POST">
             {% csrf_token %}
                 <table class="table table-bordered">
                     <tr>
                         <th>Số dư hiện tại</th>
-                        <td colspan="2">{{capital_company}}(VNĐ)</td>
+                        <td colspan="2">{{capital_user}}(VNĐ)</td>
                     </tr>
                     <tr>
                         <th>Mã cổ phiếu</th>
@@ -105,26 +97,39 @@
                     </tr>
                     <tr>
                         <td>
-                            <select onchange="handleInformationSellStock()" class="small" id = "stock" name = "stock">
-                                <option selected value="" disabled>---</option>
+                            <select onchange="handleInformationBuyStock()" class="small" id = "stock" name = "stock">
+                                {% if stock_view %}
+                                    <option selected value="{{stock_view}}">{{stock_view}}</option>
+                                {% else %}
+                                    <option selected value="" disabled>---</option>
+                                {% endif %}
                                 {% if list_stocks %}
                                     {% for company_stock in list_stocks %}
-                                        <option value="{{ company_stock }}">{{ company_stock }}</option>
+                                        {% if company_stock != stock_view %}
+                                            <option value="{{ company_stock }}">{{ company_stock }}</option>
+                                        {% endif %}
                                     {% endfor %}
                                 {% endif %}
                             </select>
                         </td>
-                        <input type="hidden" id="capital_company" value="{{capital_company}}">
+                        <input type="hidden" id="capital_user" value="{{capital_user}}">
                         <input type="hidden" id="list_current_price" value="{{list_current_price}}">
                         <input type="hidden" id="list_stocks" value="{{list_stocks}}">
-                        <td><input type="text" disabled id = "capital" name = "capital" value="0"/></td>
+                        <input type="hidden" id="capital_hidden" name="capital_hidden" value="{{capital}}">
+                        <td><input type="text" disabled id = "capital" name = "capital" value="{{capital}}"/></td>
                         <td>
-                            <input style="color: black; padding-bottom: 1%; padding-top: 1%;" type="number" id = "count_stocks" name= "count_stocks" value="0" min="0" max="99999999" step="10"/>
+                            <input style="color: black; padding-bottom: 1%; padding-top: 1%;" type="number" id = "count_stocks" name= "count_stocks" value="{{count_stocks}}" min="0" max="99999999" step="10"/>
                         </td>
                     </tr>
                 </table>
                 <div class="center">        
                     <button type="submit" class="btn btn-primary" style = "background: #4b8505;  font-size: 100%;">Thực hiện giao dịch</button>
+                </div>
+                <!-- Vùng thông báo lỗi -->
+                <div style="color: rgb(163, 5, 5); font-size: 100%;"  >
+                    {%if message%}
+                        {{ message }}
+                    {% endif%}
                 </div>
             </form>
         </div>

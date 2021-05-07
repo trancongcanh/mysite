@@ -36,7 +36,13 @@
                                     <p>
                                         <a href="/stocks/image_upload" style="text-decoration: none;"><img src="{{ avatar.url }}" style="border-radius: 29px 29px 29px 29px;  width: 60px;height:60px;" /></a>
                                     </p>
-                                {% endif %}        
+                                {% endif %}
+                    <small style="  background-color: #a9c38a; 
+                                border-top-left-radius: 4px;
+                                border-bottom-right-radius: 4px;
+                                border-bottom-left-radius: 4px;
+                                border-top-right-radius: 4px;">
+                                <a style="color: white; text-decoration: none;" href="/stocks/stock_information_owned">&emsp;Chi tiết&emsp;</a></small>      
                 {% else %}
                     <small style="  background-color: #a9c38a; 
                                 border-top-left-radius: 4px;
@@ -133,98 +139,51 @@
     </thead>
     <tbody>
         {% if company_list_view %}
-            {% for company in company_list_view %}
-                {% if len_company == 1  %}
-                    <tr>
-                        <td scope="row">{{company.id}}</td>
-                        <td>{{company.stocks}}</td>
-                        <td>{{company.company_value}}</td>
-                        <td>{{company.current_price}}</td>
-                        <td>{{company.r_o_a}}</td>
-                        <td>{{company.p_e}}</td>
-                        <td>{{company.magic_formula}}</td>
-                        {% if username == "" %}
-                            <td><small style="  background-color: #939491; 
-                                border-top-left-radius: 4px;
-                                border-bottom-right-radius: 4px;
-                                border-bottom-left-radius: 4px;
-                                border-top-right-radius: 4px;
-                                padding-top: 4%;
-                                padding-bottom: 4%;">
-                                <a title="Login để thực hiện chức năng" style="color:rgb(0, 0, 0); text-decoration: none;">&emsp;Mua&emsp;</a></small></td> 
-                            <td><small style="  background-color: #939491; 
-                                border-top-left-radius: 4px;
-                                border-bottom-right-radius: 4px;
-                                border-bottom-left-radius: 4px;
-                                border-top-right-radius: 4px;
-                                padding-top: 4%;
-                                padding-bottom: 4%;">
-                                <a title="Login để thực hiện chức năng" style="color:rgb(0, 0, 0); text-decoration: none;">&emsp;Bán&emsp;</a></small></td> 
-                        {% else %}
-                            <td><small style="  background-color: #4b8505; 
-                                border-top-left-radius: 4px;
-                                border-bottom-right-radius: 4px;
-                                border-bottom-left-radius: 4px;
-                                border-top-right-radius: 4px;
-                                padding-top: 4%;
-                                padding-bottom: 4%;">
-                            <a style="color: rgb(0, 0, 0); text-decoration: none;" href="/stocks/buy_stocks">&emsp;Mua&emsp;</a></small></td>
-                            <td><small style="  background-color: #cfb521; 
-                                border-top-left-radius: 4px;
-                                border-bottom-right-radius: 4px;
-                                border-bottom-left-radius: 4px;
-                                border-top-right-radius: 4px;
-                                padding-top: 4%;
-                                padding-bottom: 4%;">
-                            <a style="color: rgb(0, 0, 0); text-decoration: none;" href="/stocks/sell_stocks">&emsp;Bán&emsp;</a></small></td>                             
-                        {% endif %}  
-                    </tr> 
-              {% else %}   
-                    <tr class="backgreen">
-                        <td scope="row">{{company.id}}</td>
-                        <td>{{company.stocks}}</td>
-                        <td>{{company.company_value}}</td>
-                        <td>{{company.current_price}}</td>
-                        <td>{{company.r_o_a}}</td>
-                        <td>{{company.p_or_e}}</td>
-                        <td>{{company.magic_formula}}</td>
-                        {% if username == "" %}
-                            <td><small style="  background-color: #939491; 
-                                border-top-left-radius: 4px;
-                                border-bottom-right-radius: 4px;
-                                border-bottom-left-radius: 4px;
-                                border-top-right-radius: 4px;
-                                padding-top: 4%;
-                                padding-bottom: 4%;">
-                                <a title="Login để thực hiện chức năng" style="color:rgb(0, 0, 0); text-decoration: none;">&emsp;Mua&emsp;</a></small></td> 
-                            <td><small style="  background-color: #939491; 
-                                border-top-left-radius: 4px;
-                                border-bottom-right-radius: 4px;
-                                border-bottom-left-radius: 4px;
-                                border-top-right-radius: 4px;
-                                padding-top: 4%;
-                                padding-bottom: 4%;">
-                                <a title="Login để thực hiện chức năng" style="color:rgb(0, 0, 0); text-decoration: none;">&emsp;Bán&emsp;</a></small></td> 
-                        {% else %}
-                            <td><small style="  background-color: #4b8505; 
-                                border-top-left-radius: 4px;
-                                border-bottom-right-radius: 4px;
-                                border-bottom-left-radius: 4px;
-                                border-top-right-radius: 4px;
-                                padding-top: 4%;
-                                padding-bottom: 4%;">
-                            <a style="color: rgb(0, 0, 0); text-decoration: none;" href="/stocks/buy_stocks">&emsp;Mua&emsp;</a></small></td>
-                            <td><small style="  background-color: #cfb521; 
-                                border-top-left-radius: 4px;
-                                border-bottom-right-radius: 4px;
-                                border-bottom-left-radius: 4px;
-                                border-top-right-radius: 4px;
-                                padding-top: 4%;
-                                padding-bottom: 4%;">
-                            <a style="color: rgb(0, 0, 0); text-decoration: none;" href="/stocks/sell_stocks">&emsp;Bán&emsp;</a></small></td>                             
-                        {% endif %}                 
-                    </tr>
-                {% endif %}
+            {% for company in company_list_view %}  
+                <tr>
+                    <td scope="row">{{company.id}}</td>
+                    <td>{{company.stocks}}</td>
+                    <td>{{company.company_value}}</td>
+                    <td>{{company.current_price}}</td>
+                    <td>{{company.r_o_a}}</td>
+                    <td>{{company.p_or_e}}</td>
+                    <td>{{company.magic_formula}}</td>
+                    {% if username == "" %}
+                        <td><small style="  background-color: #939491; 
+                            border-top-left-radius: 4px;
+                            border-bottom-right-radius: 4px;
+                            border-bottom-left-radius: 4px;
+                            border-top-right-radius: 4px;
+                            padding-top: 4%;
+                            padding-bottom: 4%;">
+                            <a title="Login để thực hiện chức năng" style="color:rgb(0, 0, 0); text-decoration: none;">&emsp;Mua&emsp;</a></small></td> 
+                        <td><small style="  background-color: #939491; 
+                            border-top-left-radius: 4px;
+                            border-bottom-right-radius: 4px;
+                            border-bottom-left-radius: 4px;
+                            border-top-right-radius: 4px;
+                            padding-top: 4%;
+                            padding-bottom: 4%;">
+                            <a title="Login để thực hiện chức năng" style="color:rgb(0, 0, 0); text-decoration: none;">&emsp;Bán&emsp;</a></small></td> 
+                    {% else %}
+                        <td><small style="  background-color: #4b8505; 
+                            border-top-left-radius: 4px;
+                            border-bottom-right-radius: 4px;
+                            border-bottom-left-radius: 4px;
+                            border-top-right-radius: 4px;
+                            padding-top: 4%;
+                            padding-bottom: 4%;">
+                        <a style="color: rgb(0, 0, 0); text-decoration: none;" href="/stocks/buy_stocks">&emsp;Mua&emsp;</a></small></td>
+                        <td><small style="  background-color: #cfb521; 
+                            border-top-left-radius: 4px;
+                            border-bottom-right-radius: 4px;
+                            border-bottom-left-radius: 4px;
+                            border-top-right-radius: 4px;
+                            padding-top: 4%;
+                            padding-bottom: 4%;">
+                        <a style="color: rgb(0, 0, 0); text-decoration: none;" href="/stocks/sell_stocks">&emsp;Bán&emsp;</a></small></td>                             
+                    {% endif %}                 
+                </tr>
             {% endfor %}
         {% else %}
                   <tr>
@@ -242,6 +201,12 @@
         img.click()
         console.log(img);
     }
+    $(document).ready(function()
+    {
+    $("tr:odd").css({
+        "background-color":"#a9c38a",
+        "color":"#fff"});
+    });
 </script>
 </body>
 </html>

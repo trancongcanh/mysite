@@ -20,35 +20,56 @@
     <form action="" method="POST">
     <!-- Phòng chống csrf -->
     {% csrf_token %}
-    <small style="  background-color: #4b8505; 
-    border-top-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border-bottom-left-radius: 4px;
-    border-top-right-radius: 4px;">
-    <a style="color: white; text-decoration: none;" href="/stocks">&lt; &lt; Trang chủ&emsp;</a></small> 
-    <div><br></div>  
-    <!-- User name -->
-	  <div class="form-group row">
-	    <label class="col-sm-2 col-xs-4 col-form-label">User name:</label>
-	    <div class="col-sm-7 col-xs-5">
-	      <input type="text" class="form-control" id="user_name" name="user_name" placeholder="Nhập user name">
-	    </div>
-	  </div>
-    <!-- Pass word -->
-	  <div class="form-group row">
-	    <label class="col-sm-2 col-xs-4 col-form-label">Password:</label>
-	    <div class="col-sm-7 col-xs-5">
-	      <input type="password" class="form-control" id="password" name="password" placeholder="Nhập password">
-	    </div>
-	  </div>
-    <!-- Button login -->
-	  <div class="form-group row">
-	  	<div class="col-sm-2 col-xs-4">
-	    </div>
-	    <div class="col-sm-1 col-xs-1">
-	      <button type="submit" class="btn btn-primary" style = "background: #4b8505;  font-size: 100%;">Sign up</button>
-	    </div>
-	  </div>
+        <small style="  background-color: #4b8505; 
+        border-top-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+        border-bottom-left-radius: 4px;
+        border-top-right-radius: 4px;">
+        <a style="color: white; text-decoration: none;" href="/stocks">&lt; &lt; Trang chủ&emsp;</a></small> 
+        <div><br></div>  
+        <!-- User name -->
+        <div class="form-group row">
+            <label class="col-sm-2 col-xs-4 col-form-label">User name<a style="color: red;">*</a>:</label>
+            <div class="col-sm-7 col-xs-5">
+            <input type="text" class="form-control" id="user_name" name="user_name" placeholder="Nhập user name">
+            </div>
+        </div>
+        <!-- Pass word -->
+        <div class="form-group row">
+            <label class="col-sm-2 col-xs-4 col-form-label">Password<a style="color: red;">*</a>:</label>
+            <div class="col-sm-7 col-xs-5">
+            <input type="password" class="form-control" id="password" name="password" placeholder="Nhập password">
+            </div>
+        </div>
+        <!-- Capital -->
+        <div class="form-group row">
+            <label class="col-sm-2 col-xs-4 col-form-label">Vốn đăng kí<a style="color: red;">*</a>:</label>
+            <div class="col-sm-7 col-xs-5">
+            <input type="text" class="form-control" id="capital" name="capital" placeholder="Nhập vào số vốn của bạn">
+            </div>
+        </div>
+        <!-- Email -->
+        <div class="form-group row">
+            <label class="col-sm-2 col-xs-4 col-form-label">Email:</label>
+            <div class="col-sm-7 col-xs-5">
+            <input type="text" class="form-control" id="email" name="email" placeholder="...@gmail.com">
+            </div>
+        </div>
+        <!-- Phone -->
+        <div class="form-group row">
+            <label class="col-sm-2 col-xs-4 col-form-label">Số điện thoại:</label>
+            <div class="col-sm-7 col-xs-5">
+            <input type="text" class="form-control" id="phone" name="phone" placeholder="Nhập số điện thoại">
+            </div>
+        </div>
+        <!-- Button login -->
+        <div class="form-group row">
+            <div class="col-sm-2 col-xs-4">
+            </div>
+            <div class="col-sm-1 col-xs-1">
+            <button type="submit" class="btn btn-primary" style = "background: #4b8505;  font-size: 100%;">Sign up</button>
+            </div>
+        </div>
         <!-- Vùng thông báo lỗi -->
         <div class="messages"  >
             {%if message%}

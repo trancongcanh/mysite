@@ -7,7 +7,6 @@ from .models import Company, User
 from django.shortcuts import redirect
 from django.conf import settings
 
-from .company_view import CompanyView
 from .common import change_format_date_update
 
 # Xử lí hiển thị trường hợp search
@@ -15,13 +14,16 @@ def search(request):
     try:
         # Kiểm tra session time out        
         if request.session.get('last_touch',"") != "" :
+            # Logout nếu quá session
             if datetime.now() - request.session['last_touch']> timedelta( 0, settings.AUTO_LOGOUT_DELAY * 60, 0):
                 member_id = request.session.get('member_id',"")
                 del request.session['last_touch']
                 if member_id != "":
                     del request.session['member_id']
+            # Nếu chưa quá session thì thực hiện reset lại session
             else:
                 request.session['last_touch'] = datetime.now()
+        # Logout nếu quá session
         else:
             member_id = request.session.get('member_id',"")
             if member_id != "":
@@ -38,42 +40,30 @@ def search(request):
         request.session['date_update'] = date_update
         # Khởi tạo danh sách công ty
         company_list_db = []
-        company_list = []
         company_list_view= []
         # Thay đổi format date lấy từ form để thực hiện get data từ Db
         date_update_change_format = change_format_date_update(date_update)
         # Xử lí các trường hợp với các điều kiện tìm kiếm tương ứng có hoặc không có ngày tìm kiếm
         if (date_update != ""):
             date_update_view = datetime.strptime(date_update_change_format, "%Y-%m-%d")
-            company_list_db = Company.objects.filter(date_update=date_update_view).order_by('-magic_formula')
+            company_list_db = Company.objects.filter(date_update=date_update_view).order_by('magic_formula')
         else:
-            company_list_db = Company.objects.all().order_by('-magic_formula')
+            company_list_db = Company.objects.all().order_by('magic_formula')
         # Tìm kiếm với công ty có số vốn lớn hơn vốn công ty(nếu có) lấy được từ request 
-        if (company_value != ""):
-            company_value_validate = int(company_value) 
-            for company in company_list_db :
-                if (int(company.company_value) >= company_value_validate):
-                    company_list.append(company)
+        if company_value != "":
+            company_value_validate = int(company_value)
         else:
-            company_list = company_list_db
+            company_value_validate = 0
         # Lấy ra số lượng record mong muốn hiển thị
         if count_company != "":
             count_record = int(count_company)
-            if count_record > len(company_list):
-                count_record = len(company_list)
-            # Tạo danh sách đối tượng company mới có thuộc tính index để hiển thị STT table
-            for i in range(0, count_record):
-                company_view = CompanyView(0, company_list[i].stocks, company_list[i].current_price, company_list[i].p_or_e, company_list[i].company_value, company_list[i].r_o_a, company_list[i].magic_formula, company_list[i].date_update)
-                company_list_view.append(company_view)
         else:
-            # Tạo danh sách đối tượng company mới có thuộc tính index để hiển thị STT table
-            for company in company_list:
-                company_view = CompanyView(0, company.stocks, company.current_price, company.p_or_e, company.company_value, company.r_o_a, company.magic_formula, company.date_update)
-                company_list_view.append(company_view)
-
-        # Duyệt các chỉ số hiển thị của mỗi record
-        for index in range(len(company_list_view)):
-            company_list_view[index].id=index+1
+            count_record = len(company_list_db)
+        # Duyệt danh sách lấy từ DB theo ngày tìm kiếm (nếu có) và lọc ra theo giá trị công ty và số record muốn hiển thị
+        for i in range(len(company_list_db)):
+            if int(company_list_db[i].company_value) >= company_value_validate and len(company_list_view) < count_record:
+                company_list_db[i].id = len(company_list_view)+1
+                company_list_view.append(company_list_db[i])
         # Lấy ra số lượng thực tế các công ty thỏa mãn điều kiện tìm kiếm
         len_company = len(company_list_view)
         # Get ra template theo đường dẫn tương ứng để set hiển thị
@@ -81,8 +71,7 @@ def search(request):
         if username != "" :
             user = User.objects.filter(user_name=username)    
             if len(user) != 0:
-                for user in user:
-                    avatar = user.avatar
+                avatar = user[0].avatar
         else: 
             avatar="1"
         # Tạo 1 Dictionary đưa lên template hiển thị 

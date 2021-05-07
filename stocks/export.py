@@ -13,13 +13,16 @@ from django.conf import settings
 def export_csv(request):
     # Kiểm tra session time out        
     if request.session.get('last_touch',"") != "" :
+        # Logout nếu quá session
         if datetime.now() - request.session['last_touch']> timedelta( 0, settings.AUTO_LOGOUT_DELAY * 60, 0):
             member_id = request.session.get('member_id',"")
             del request.session['last_touch']
             if member_id != "":
                 del request.session['member_id']
+        # Nếu chưa quá session thì thực hiện reset lại session
         else:
             request.session['last_touch'] = datetime.now()
+    # Logout nếu quá session
     else:
         member_id = request.session.get('member_id',"")
         if member_id != "":
@@ -38,15 +41,15 @@ def export_csv(request):
     if (date_update != "" and count_company !=""):
         date_update_view = datetime.strptime(date_update_change_format, "%Y-%m-%d")
         count_record = int(count_company)
-        company_list_db = Company.objects.filter(date_update=date_update_view).order_by('-magic_formula')[:count_record]
+        company_list_db = Company.objects.filter(date_update=date_update_view).order_by('magic_formula')[:count_record]
     elif (date_update != "" and count_company ==""):
         date_update_view = datetime.strptime(date_update_change_format, "%Y-%m-%d")
-        company_list_db = Company.objects.filter(date_update=date_update_view).order_by('-magic_formula')
+        company_list_db = Company.objects.filter(date_update=date_update_view).order_by('magic_formula')
     elif (date_update == "" and count_company !=""):
         count_record = int(count_company)
-        company_list_db = Company.objects.all().order_by('-magic_formula')[:count_record]
+        company_list_db = Company.objects.all().order_by('magic_formula')[:count_record]
     elif (date_update == "" and count_company ==""):
-        company_list_db = Company.objects.all().order_by('-magic_formula')
+        company_list_db = Company.objects.all().order_by('magic_formula')
 
     # Tìm kiếm với công ty có số vốn lớn hơn vốn công ty(nếu có) lấy được từ request 
     if (company_value != ""):

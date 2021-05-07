@@ -16,14 +16,17 @@ def image_view(request):
         context = {}
         # Kiểm tra session time out        
         if request.session.get('last_touch',"") != "" :
+            # Logout và Quay lại MH login nếu quá session
             if datetime.now() - request.session['last_touch']> timedelta( 0, settings.AUTO_LOGOUT_DELAY * 60, 0):
                 member_id = request.session.get('member_id',"")
                 del request.session['last_touch']
                 if member_id != "":
                     del request.session['member_id']
                     return redirect("stocks:login")
+            # Nếu chưa quá session thì thực hiệ reset lại session
             else:
                 request.session['last_touch'] = datetime.now()
+        # Logout và Quay lại MH login nếu quá session
         else:
             member_id = request.session.get('member_id',"")
             if member_id != "":
@@ -33,7 +36,7 @@ def image_view(request):
         username=request.session.get('member_id', '')
         log = 0
         # Lấy ra data từ CSDL để hiển thị ở MH danh sách
-        company_list_db = Company.objects.order_by('-magic_formula')
+        company_list_db = Company.objects.order_by('magic_formula')
         # Tạo danh sách đối tượng company mới có thuộc tính index để hiển thị STT table
         company_list_view = []
         for company in company_list_db:

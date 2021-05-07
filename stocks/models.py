@@ -1,6 +1,7 @@
 from django.db import models
 #Tạo bảng các công ty và các thuộc tính tương ứng
 class Company(models.Model):
+    # id
     id = models.AutoField(primary_key=True)
     # Mã cổ phiếu	
     stocks = models.TextField()
@@ -45,4 +46,30 @@ class User(models.Model):
     capital = models.CharField(max_length=50)
     # Avatar
     avatar = models.ImageField(upload_to='')
+    # Email
+    email = models.TextField()
+    # Số điện thoại
+    phone = models.IntegerField()
 
+#Tạo bảng lịch sử giao dịch
+class History(models.Model):
+    # id
+    id = models.AutoField(primary_key=True)
+    # User mua/ bán
+    managed_by = models.TextField()
+    # Loại cố phiếu
+    stock = models.TextField()
+    # Ngày mua
+    start_date = models.DateField(null=True, blank=True)
+    # Ngày bán
+    end_date = models.DateField(null=True, blank=True)
+    # Số lượng cổ phiếu được mua
+    count_stocks = models.IntegerField()
+    # Giá mua vào
+    capital_start = models.DecimalField(decimal_places=2, max_digits=15)
+    # Giá bán ra
+    capital_end = models.DecimalField(decimal_places=2, max_digits=15)
+    # % (Lãi lỗ/Năm)
+    e = models.DecimalField(decimal_places=2, max_digits=15)
+    # Trạng thái giao dịch ( 1(Còn)/ 0(Đã bán))
+    transaction_status = models.IntegerField()

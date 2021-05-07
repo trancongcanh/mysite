@@ -46,7 +46,7 @@ def login(request):
                 # Lấy thông tin avatar set hiển thị
                 avatar = user.avatar  
             try:
-                company_list_db = Company.objects.order_by('-magic_formula')
+                company_list_db = Company.objects.order_by('magic_formula')
                 template = loader.get_template('stocks/index.html')
                 # Tạo danh sách đối tượng company mới có thuộc tính index để hiển thị STT table
                 company_list_view = []

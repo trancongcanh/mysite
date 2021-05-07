@@ -10,22 +10,25 @@ from django.conf import settings
 
 # Xử lí upload file
 def profile_upload(request):
-    # try:
-        # Kiểm tra session time out 
+    try:
+        # Kiểm tra session time out        
         if request.session.get('last_touch',"") != "" :
+            # Logout và Quay lại MH login nếu quá session
             if datetime.now() - request.session['last_touch']> timedelta( 0, settings.AUTO_LOGOUT_DELAY * 60, 0):
                 member_id = request.session.get('member_id',"")
                 del request.session['last_touch']
                 if member_id != "":
                     del request.session['member_id']
                     return redirect("stocks:login")
+            # Nếu chưa quá session thì thực hiện reset lại session
             else:
                 request.session['last_touch'] = datetime.now()
+        # Logout và Quay lại MH login nếu quá session
         else:
             member_id = request.session.get('member_id',"")
             if member_id != "":
                 del request.session['member_id']
-                return redirect("stocks:login")
+                return redirect("stocks:login")  
         # Lấy mẫu template
         template = 'stocks/profile_upload.html'
         data = Company.objects.all()
@@ -69,8 +72,8 @@ def profile_upload(request):
                 r_o_e=column[9],
                 p_or_e=column[10],
                 p_or_b=column[11],
-                is_big_enough=True,
-                is_lowest=False,
+                is_big_enough=converStringtoBoolean(column[12]),
+                is_lowest=converStringtoBoolean(column[13]),
                 magic_formula=column[14],
                 date_update=datetime.now(),
             )
@@ -81,12 +84,21 @@ def profile_upload(request):
         }
         # Trả về template hiển thị sau khi upload file thành công
         return render(request, template, context)
-    # except Exception:
-    #     # Lấy mẫu template
-    #     template = 'stocks/profile_upload.html'        
-    #     # Tạo 1 Dictionary đưa lên template hiển thị 
-    #     context = {
-    #         'messages': "Upload file không thành công, vui lòng kiểm tra lại file upload và thử lại"
-    #     }
-    #     # Trả về template hiển thị sau khi upload file thành công
-    #     return render(request, template, context)
+    except Exception:
+        # Lấy mẫu template
+        template = 'stocks/profile_upload.html'        
+        # Tạo 1 Dictionary đưa lên template hiển thị 
+        context = {
+            'messages': "Upload file không thành công, vui lòng kiểm tra lại file upload và thử lại"
+        }
+        # Trả về template hiển thị sau khi upload file thành công
+        return render(request, template, context)
+
+# Chuyển đổi giá trị True/False từ các cộgt trong csv thành giá trị Boolean mà ứng dụng hiểu được khi thêm vào DB
+def converStringtoBoolean (string) :
+    check_bolean = True
+    for i in range(len(string)):
+        if string[i] == 'F' or string[i] =='f':
+            check_bolean = False
+    return check_bolean
+
