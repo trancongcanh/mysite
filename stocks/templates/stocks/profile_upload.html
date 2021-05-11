@@ -25,23 +25,23 @@
         border-top-right-radius: 4px;">
         <a style="color: white; text-decoration: none;" href="/stocks">&lt; &lt; Trang chủ&emsp;</a></small> 
         <div><br></div>
-        <form action="" method="POST" enctype="multipart/form-data">
+        <!-- <form action="" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            <div class="form-group row">
+            <div class="form-group row"> -->
                 <!-- Form upload -->
-                    <label class="col-sm-3 col-xs-2 col-form-label" for="file1"> Upload a file:</label>
+                    <!-- <label class="col-sm-3 col-xs-2 col-form-label" for="file1"> Upload a file:</label>
                     <div class="col-sm-7 col-xs-5">
                         <input type="file" id="file1" name="profile_upload">
                         <small style="  font-size: 90%; color:  #000000;">Only accepts CSV files</small>
-                    </div>
-            </div>
+                    </div> -->
+            <!-- </div>
             <div class="form-group row">
                 <div class="col-sm-3 col-xs-2">
                 </div>
                 <div class="col-sm-1 col-xs-1">
                     <button type="submit" class="btn btn-primary" style = "background: #4b8505;  font-size: 100%;">Upload</button>
                 </div>
-            </div>
+            </div> -->
                 <!-- Vùng thông báo lỗi -->
             <div class="messages"  >
                 {%if messages%}
@@ -49,7 +49,7 @@
                 {% endif%}
             </div>
             <div><br></div>
-        </form>
+        <!-- </form> -->
     </div>
 </header>
 </body>

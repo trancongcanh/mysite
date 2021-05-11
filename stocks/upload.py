@@ -7,6 +7,8 @@ from .models import Company, User
 import io,csv
 from django.shortcuts import redirect
 from django.conf import settings
+import pandas as pd
+from .common import converToInt
 
 # Xử lí upload file
 def profile_upload(request):
@@ -29,58 +31,75 @@ def profile_upload(request):
             if member_id != "":
                 del request.session['member_id']
                 return redirect("stocks:login")  
-        # Lấy mẫu template
+        # Lấy mẫu template hiển thị
         template = 'stocks/profile_upload.html'
-        data = Company.objects.all()
         # Tạo 1 Dictionary đưa lên template hiển thị 
-        prompt = {
-            'profiles': data    
-        }
-        # Xử lí hiển thị ban đầu khi vào trang upload file
-        if request.method == "GET":
-            return render(request, template, prompt)
-        csv_file = request.FILES.get('profile_upload', "")
-        if csv_file == "":
-            context = {
-                'messages': "Chưa chọn file upload"
-            }
-            # Trả về template hiển thị sau khi upload file thất bại
-            return render(request, template, context)
+        # prompt = {
+        # }
+        # # Xử lí hiển thị ban đầu khi vào trang upload file
+        # if request.method == "GET":
+        #     return render(request, template, prompt) 
+        # csv_file = request.FILES.get('profile_upload', "")
+        # if csv_file == "":
+        #     context = {
+        #         'messages': "Chưa chọn file upload"
+        #     }
+        #     # Trả về template hiển thị sau khi upload file thất bại
+        #     return render(request, template, context)
         # Kiểm tra xem tệp đầu vào phải là tệp csv không
-        if not csv_file.name.endswith('.csv'):
-            context = {
-                'messages': "File upload không phải tệp csv"
-            }
-            # Trả về template hiển thị sau khi upload file thất bại
-            return render(request, template, context)
-        data_set = csv_file.read().decode('utf-8')
-        # setup a stream which is when we loop through each line we are able to handle a data in a stream
-        io_string = io.StringIO(data_set)
-        next(io_string)
-        id = 9
-        for column in csv.reader(io_string, delimiter=',', quotechar="|"):
-            _, created = Company.objects.update_or_create(
+        # if not csv_file.name.endswith('.csv'):
+        #     context = {
+        #         'messages': "File upload không phải tệp csv"
+        #     }
+        #     # Trả về template hiển thị sau khi upload file thất bại
+        #     return render(request, template, context)
+        # data_set = csv_file.read().decode('utf-8')
+        # # setup a stream which is when we loop through each line we are able to handle a data in a stream
+        # io_string = io.StringIO(data_set)
+        # next(io_string)
+        data = pd.read_csv (r'C:/Users/trancongcanh/Downloads/InvestInVn_.csv')
+        df = pd.DataFrame(data, columns= [
+            'Ma CP',
+            'Current Price',
+            'Book Value', 
+            'Lowest Price In 52w', 
+            'Chenh lech', 
+            'KL dang luu hanh', 
+            'Gia tri cong ty',
+            'EPS',
+            'ROA',
+            'ROE',
+            'P/E',
+            'P/B',
+            'Is Big Enough',
+            'IsLowest',
+            'MagicFormula',
+        ])
+        company_list = df.values.tolist()
+        for column in company_list:
+            created = Company.objects.create(
                 stocks=column[0],
                 current_price=column[1],
                 book_value=column[2],
                 lowest_price_in_52w=column[3],
                 difference=column[4],
-                masses_in_circulation=float(column[5]),
-                company_value=float(column[6]),
+                masses_in_circulation=converToInt(column[5]),
+                company_value=converToInt(column[6]),
                 e_s_p=column[7],
                 r_o_a=column[8],
                 r_o_e=column[9],
                 p_or_e=column[10],
                 p_or_b=column[11],
-                is_big_enough=converStringtoBoolean(column[12]),
-                is_lowest=converStringtoBoolean(column[13]),
+                is_big_enough=column[12],
+                is_lowest=column[13],
                 magic_formula=column[14],
                 date_update=datetime.now(),
             )
             
         # Tạo 1 Dictionary đưa lên template hiển thị 
         context = {
-        'messages': "Upload file thành công"
+        'messages': "Upload file thành công",
+        'df': df
         }
         # Trả về template hiển thị sau khi upload file thành công
         return render(request, template, context)
@@ -94,11 +113,4 @@ def profile_upload(request):
         # Trả về template hiển thị sau khi upload file thành công
         return render(request, template, context)
 
-# Chuyển đổi giá trị True/False từ các cộgt trong csv thành giá trị Boolean mà ứng dụng hiểu được khi thêm vào DB
-def converStringtoBoolean (string) :
-    check_bolean = True
-    for i in range(len(string)):
-        if string[i] == 'F' or string[i] =='f':
-            check_bolean = False
-    return check_bolean
 
