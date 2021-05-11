@@ -48,12 +48,12 @@ def stock_information_owned(request):
     # Lấy ra danh sách cổ phiếu cập nhật của ngày hiện tại
     company_list_current = Company.objects.order_by('magic_formula').filter(date_update=datetime.now())
     # Cập nhật giá mới nhất của cổ phiếu trước khi bán,khởi tạo danh sách cổ phiếu và số lượng cổ phiếu user nắm giữ
-    id = 0
+    id = 1
     for company in company_list_db:
         company.id = id
         for i in range(len(company_list_current)):
             if company_list_current[i].stocks == company.stock:
-                company.stock = fomat_number(company_list_current[i].current_price)
+                company.stock = company_list_current[i].stocks
                 company.capital_end = company_list_current[i].current_price
                 company.e = round(((company.capital_end-company.capital_start)/company.capital_start) *100, 2)
         id+=1
