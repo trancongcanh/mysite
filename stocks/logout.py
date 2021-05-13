@@ -1,11 +1,6 @@
-from django.http import HttpResponse, Http404, HttpResponseRedirect, JsonResponse
-from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponse, Http404
 from django.template import loader
-from django.urls import reverse
-from datetime import datetime
-from .models import Company, User
-import io,csv
-from django.shortcuts import redirect
+from .models import Company
 
 from .company_view import CompanyView
 

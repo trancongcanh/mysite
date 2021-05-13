@@ -1,14 +1,13 @@
-from django.http import HttpResponse, Http404, HttpResponseRedirect, JsonResponse
-from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponse
+from django.shortcuts import redirect
 from django.template import loader
-from django.urls import reverse
 from datetime import datetime, timedelta
 from .models import Company, User, History
 from django.shortcuts import redirect
 from django.conf import settings
 import math
 
-
+# Xử lí bán cổ phiếu
 def sell_stocks(request):
     # Kiểm tra session time out        
     if request.session.get('last_touch',"") != "" :
@@ -19,7 +18,7 @@ def sell_stocks(request):
             if member_id != "":
                 del request.session['member_id']
                 return redirect("stocks:login")
-        # Nếu chưa quá session thì thực hiệ reset lại session
+        # Nếu chưa quá session thì thực hiện reset lại session
         else:
             request.session['last_touch'] = datetime.now()
     # Logout và Quay lại MH login nếu quá session

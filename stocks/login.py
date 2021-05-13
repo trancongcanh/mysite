@@ -1,15 +1,10 @@
-from django.http import HttpResponse, Http404, HttpResponseRedirect, JsonResponse
-from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponse, Http404
 from django.template import loader
-from django.urls import reverse
 from .models import Company, User
-from django.shortcuts import redirect
-from datetime import datetime, timedelta
-from django.conf import settings
+from datetime import datetime
 
 from .company_view import CompanyView
 
-        
 # Xử lí login
 def login(request):
     # Thực hiện xóa các điều kiện tìm kiếm (nếu có) ở MH danh sách hiện tại trên session

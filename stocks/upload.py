@@ -1,10 +1,6 @@
-from django.http import HttpResponse, Http404, HttpResponseRedirect, JsonResponse
-from django.shortcuts import render, get_object_or_404, redirect
-from django.template import loader
-from django.urls import reverse
+from django.shortcuts import render, redirect
 from datetime import datetime, timedelta
-from .models import Company, User
-import io,csv
+from .models import Company
 from django.shortcuts import redirect
 from django.conf import settings
 import pandas as pd
@@ -12,7 +8,7 @@ from .common import converToInt
 
 # Xử lí upload file
 def profile_upload(request):
-    try:
+    # try:
         # Kiểm tra session time out        
         if request.session.get('last_touch',"") != "" :
             # Logout và Quay lại MH login nếu quá session
@@ -85,7 +81,7 @@ def profile_upload(request):
                 difference=column[4],
                 masses_in_circulation=converToInt(column[5]),
                 company_value=converToInt(column[6]),
-                e_s_p=column[7],
+                e_s_p=converToInt(column[7]),
                 r_o_a=column[8],
                 r_o_e=column[9],
                 p_or_e=column[10],
@@ -103,14 +99,14 @@ def profile_upload(request):
         }
         # Trả về template hiển thị sau khi upload file thành công
         return render(request, template, context)
-    except Exception:
-        # Lấy mẫu template
-        template = 'stocks/profile_upload.html'        
-        # Tạo 1 Dictionary đưa lên template hiển thị 
-        context = {
-            'messages': "Upload file không thành công, vui lòng kiểm tra lại file upload và thử lại"
-        }
-        # Trả về template hiển thị sau khi upload file thành công
-        return render(request, template, context)
+    # except Exception:
+    #     # Lấy mẫu template
+    #     template = 'stocks/profile_upload.html'        
+    #     # Tạo 1 Dictionary đưa lên template hiển thị 
+    #     context = {
+    #         'messages': "Upload file không thành công, vui lòng kiểm tra lại file upload và thử lại"
+    #     }
+    #     # Trả về template hiển thị sau khi upload file thành công
+    #     return render(request, template, context)
 
 

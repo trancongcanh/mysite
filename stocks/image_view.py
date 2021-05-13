@@ -23,7 +23,7 @@ def image_view(request):
                 if member_id != "":
                     del request.session['member_id']
                     return redirect("stocks:login")
-            # Nếu chưa quá session thì thực hiệ reset lại session
+            # Nếu chưa quá session thì thực hiện reset lại session
             else:
                 request.session['last_touch'] = datetime.now()
         # Logout và Quay lại MH login nếu quá session

@@ -1,13 +1,10 @@
-from django.http import HttpResponse, Http404, HttpResponseRedirect, JsonResponse
-from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponse
+from django.shortcuts import redirect
 from django.template import loader
-from django.urls import reverse
 from datetime import datetime, timedelta
 from .models import Company, User, History
 from django.shortcuts import redirect
 from django.conf import settings
-import math
-from .common import fomat_number, reverse_string
 
 
 def stock_information_owned(request):

@@ -1,11 +1,5 @@
-from django.http import HttpResponse, Http404, HttpResponseRedirect, JsonResponse
-from django.shortcuts import render, get_object_or_404, redirect
-from django.template import loader
-from django.urls import reverse
-from datetime import datetime
-from .models import Company, User
-import io,csv
-from django.shortcuts import redirect
+from django.shortcuts import render
+from .models import User
 
 # Xử lí sign up
 def signup(request):
