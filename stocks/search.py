@@ -3,8 +3,7 @@ from django.template import loader
 from datetime import datetime, timedelta
 from .models import Company, User
 from django.conf import settings
-
-from .common import change_format_date_update
+from .common import change_format_date_update, fomat_number
 
 # Xử lí hiển thị trường hợp search
 def search(request):
@@ -60,6 +59,8 @@ def search(request):
         for i in range(len(company_list_db)):
             if int(company_list_db[i].company_value) >= company_value_validate and len(company_list_view) < count_record:
                 company_list_db[i].id = len(company_list_view)+1
+                company_list_db[i].company_value=fomat_number(company_list_db[i].company_value)
+                company_list_db[i].current_price=fomat_number(company_list_db[i].current_price)
                 company_list_view.append(company_list_db[i])
         # Lấy ra số lượng thực tế các công ty thỏa mãn điều kiện tìm kiếm
         len_company = len(company_list_view)
