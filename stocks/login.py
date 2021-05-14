@@ -33,6 +33,8 @@ def login(request):
         # Nếu user có tồn tại trong CSDL thì quay trở về MH danh sách lưu trạng thái đã đăng nhập lên session
         else:
             request.session['last_touch'] = datetime.now()
+            for user in user:
+                request.session['member_id'] = user.user_name
             return redirect("stocks:index")     
     else:
         # Get dữ liệu từ request

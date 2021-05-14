@@ -39,6 +39,18 @@ def converToInt (string) :
     scount_int = int(string_int)
     return scount_int
 
+# Chuyển đổi giá trị từ định dạng xxx,xxx.xx thành xxxxxx.xx
+def converToInt2 (string) :
+    scount_int = 0
+    string_convert = str(string)
+    string_int = ""
+    for i in range(len(string_convert)):
+        if string_convert[i] == ',':
+           continue
+        string_int += string_convert[i]
+    scount_int = float(string_int)
+    return scount_int
+
 # Hàm đảo ngược chuỗi
 def reverse_string (string):
     string_handle = str(string)

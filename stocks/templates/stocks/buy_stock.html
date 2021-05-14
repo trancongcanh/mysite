@@ -63,7 +63,7 @@
                 while (parseInt(tmp)%10 != 0){
                     tmp-=1
                 }
-                if (parseInt(tmp)*parseFloat(capital_value) >= parseFloat(capital_user.value)) {
+                if (parseInt(tmp)*parseFloat(capital_value) > parseFloat(capital_user.value)) {
                     tmp-=10
                 }
                 count_stocks.value = parseInt(tmp)

@@ -64,16 +64,29 @@ class History(models.Model):
     # Loại cố phiếu
     stock = models.TextField()
     # Ngày mua
-    start_date = models.DateField(null=True, blank=True)
-    # Ngày bán
-    end_date = models.DateField(null=True, blank=True)
+    deal_date = models.DateField(null=True, blank=True)
     # Số lượng cổ phiếu được mua
     count_stocks = models.IntegerField()
-    # Giá mua vào
-    capital_start = models.DecimalField(decimal_places=2, max_digits=15)
-    # Giá bán ra
-    capital_end = models.DecimalField(decimal_places=2, max_digits=15)
+    # Giá giao dịch
+    capital_deal = models.DecimalField(decimal_places=2, max_digits=15)
     # % (Lãi lỗ/Năm)
     e = models.DecimalField(decimal_places=2, max_digits=15)
-    # Trạng thái giao dịch ( 1(Còn)/ 0(Đã bán))
+    # Trạng thái giao dịch ( 1(Mua)/ 0(Bán))
     transaction_status = models.IntegerField()
+
+# Tạo bảng giao dịch
+class Deal(models.Model):
+    # id
+    id = models.AutoField(primary_key=True)    
+    # Tổng Vốn đầu tư vào cổ phiếu
+    capital_buy_stock = models.IntegerField()
+    # Số lượng cổ phiếu nắm giữ
+    count_stock_owned = models.IntegerField()
+    # Mã cổ phiếu nắm giữ
+    stock_code = models.TextField()
+    # User sở hữu cổ phiếu
+    user_owned = models.TextField()
+    # Giá giao dịch
+    transaction_prices = models.DecimalField(decimal_places=2, max_digits=15)
+    # % (Lãi lỗ/Năm)
+    e = models.DecimalField(decimal_places=2, max_digits=15)

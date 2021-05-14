@@ -98,8 +98,8 @@
                         {% for company in company_list_view %}  
                             <tr style = "background: #ffffff">
                                 <td>{{company.id}}</td>
-                                <td>{{company.stock}}</td>
-                                <td>{{company.capital_end}}</td>
+                                <td>{{company.stock_code}}</td>
+                                <td>{{company.transaction_prices}}</td>
                                 {% if company.e >= 0 %}
                                     <td style="color: greenyellow;">{{company.e}}%</td>
                                 {% else %}
@@ -125,7 +125,7 @@
                     <tr style = "background: #ffffff">
                         <td>{{capital_user}} </td>
                         {% if profit_user %}
-                            {% if profit_user >= 0 %}
+                            {% if profit_user_number >= 0 %}
                                 <td style="color: greenyellow;">{{profit_user}}</td>
                             {% else %}
                                 <td style="color: crimson;">{{profit_user}}</td>

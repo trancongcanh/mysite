@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template import loader
 from datetime import datetime, timedelta
-from .models import Company, User, History
+from .models import Company, User, Deal
 from django.shortcuts import redirect
 from django.conf import settings
 from .common import fomat_number
@@ -49,7 +49,7 @@ def stock_information_owned(request):
     if request.session.get('date_update','') != "":        
         del request.session['date_update'] 
     # Lấy ra tất cả cố phiếu mà user nắm giữ trong db
-    company_list_db = History.objects.order_by('capital_start').filter(managed_by=username, transaction_status=1)
+    company_list_db = Deal.objects.order_by('capital_buy_stock').filter(user_owned=username, count_stock_owned__gt=0)
     # Lấy ra danh sách cổ phiếu cập nhật của ngày hiện tại
     company_list_current = Company.objects.order_by('magic_formula').filter(date_update=datetime.now())
     # Cập nhật giá mới nhất của cổ phiếu trước khi bán,khởi tạo danh sách cổ phiếu và số lượng cổ phiếu user nắm giữ
@@ -57,10 +57,9 @@ def stock_information_owned(request):
     for company in company_list_db:
         company.id = id
         for i in range(len(company_list_current)):
-            if company_list_current[i].stocks == company.stock:
-                company.stock = company_list_current[i].stocks
-                company.capital_end = fomat_number(company_list_current[i].current_price)
-                company.e = round(((company_list_current[i].current_price-company.capital_start)/company.capital_start) *100, 2)
+            if company_list_current[i].stocks == company.stock_code and company.count_stock_owned != 0:
+                company.transaction_prices = fomat_number(company_list_current[i].current_price)
+                company.e = round(((float(company_list_current[i].current_price)-(company.capital_buy_stock/company.count_stock_owned))/(company.capital_buy_stock/company.count_stock_owned)) *100, 2)
         id+=1
     # Tạo template hiển thị
     template = loader.get_template('stocks/stock_information_owned.html')
@@ -71,6 +70,7 @@ def stock_information_owned(request):
             'company_list_view': company_list_db,
             'capital_user': fomat_number(capital_user),
             'profit_user': fomat_number(profit_user),
+            'profit_user_number': profit_user,
             'e': e
         }
     else:

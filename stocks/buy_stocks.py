@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template import loader
 from datetime import datetime, timedelta
-from .models import Company, User, History
+from .models import Company, User, History, Deal
 from django.shortcuts import redirect
 from django.conf import settings
 import math
@@ -66,9 +66,23 @@ def buy_stocks(request):
         capital_hidden = float(request.POST.get('capital_hidden', 0))
         count_stocks = int(request.POST.get('count_stocks', 0))
         if count_stocks*capital_hidden <= capital_user and count_stocks > 0:
-            update_history_buy = History.objects.create(managed_by=username, stock=stock_view, start_date=datetime.now(), count_stocks=count_stocks, capital_start=capital_hidden, transaction_status= 1, )
-            update_capital_user = User.objects.filter(user_name=username).update(capital=int(capital_user-math.ceil(count_stocks*capital_hidden)))
+            History.objects.create(managed_by=username, stock=stock_view, deal_date=datetime.now(), count_stocks=count_stocks, capital_deal=capital_hidden, transaction_status= 1, )
+            User.objects.filter(user_name=username).update(capital=int(capital_user-math.ceil(count_stocks*capital_hidden)))
             capital_user = int(capital_user-math.ceil(count_stocks*capital_hidden))
+            list_stock_user_owned = Deal.objects.filter(user_owned=username)
+            list_stock_code_user_owned = []
+            for stock in list_stock_user_owned:
+                list_stock_code_user_owned.append(stock.stock_code)
+            if stock_view in list_stock_code_user_owned:
+                capital_buy_stock = 0
+                count_stock_owned = 0
+                for stock in list_stock_user_owned:
+                    if stock.stock_code == stock_view:
+                        capital_buy_stock = stock.capital_buy_stock
+                        count_stock_owned = stock.count_stock_owned
+                Deal.objects.filter(stock_code=stock_view).update(capital_buy_stock=capital_buy_stock+(capital_hidden*count_stocks), count_stock_owned=count_stock_owned+count_stocks)
+            else:
+                Deal.objects.filter(stock_code=stock_view).create(stock_code=stock_view, capital_buy_stock=capital_hidden*count_stocks, count_stock_owned=count_stocks, user_owned= username)
             message = "Giao dịch thành công"
         else:
             message = "Giao dịch không thành công"
@@ -78,9 +92,8 @@ def buy_stocks(request):
             'capital_user': capital_user,
             'capital_user_format': fomat_number(capital_user),
             'message': message,
-            'stock_view': stock_view,
-            'capital': fomat_number(request.POST.get('capital_hidden', 0)),
-            'count_stocks': count_stocks,
+            'capital': 0,
+            'count_stocks': 0,
         }
 
     return HttpResponse(template.render(context, request))

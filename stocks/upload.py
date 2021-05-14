@@ -4,7 +4,7 @@ from .models import Company
 from django.shortcuts import redirect
 from django.conf import settings
 import pandas as pd
-from .common import converToInt
+from .common import converToInt, converToInt2
 
 # Xử lí upload file
 def profile_upload(request):
@@ -81,7 +81,7 @@ def profile_upload(request):
                 difference=column[4],
                 masses_in_circulation=converToInt(column[5]),
                 company_value=converToInt(column[6]),
-                e_s_p=converToInt(column[7]),
+                e_s_p=converToInt2(column[7]),
                 r_o_a=column[8],
                 r_o_e=column[9],
                 p_or_e=column[10],
