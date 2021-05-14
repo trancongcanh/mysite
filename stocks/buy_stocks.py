@@ -6,6 +6,8 @@ from .models import Company, User, History
 from django.shortcuts import redirect
 from django.conf import settings
 import math
+from .common import fomat_number
+
 
 # XỬ lí mua cổ phiếu
 def buy_stocks(request):
@@ -55,6 +57,7 @@ def buy_stocks(request):
         'list_current_price': list_current_price,
         'list_stocks': list_stocks,
         'capital_user': capital_user,
+        'capital_user_format': fomat_number(capital_user),
     }
     # Xử lí khi thực hiện giao dịch
     if request.method =='POST':
@@ -68,14 +71,15 @@ def buy_stocks(request):
             capital_user = int(capital_user-math.ceil(count_stocks*capital_hidden))
             message = "Giao dịch thành công"
         else:
-            message = "Số dư không đủ"
+            message = "Giao dịch không thành công"
         context = {
             'list_current_price': list_current_price,
             'list_stocks': list_stocks,
             'capital_user': capital_user,
+            'capital_user_format': fomat_number(capital_user),
             'message': message,
             'stock_view': stock_view,
-            'capital': request.POST.get('capital_hidden', 0),
+            'capital': fomat_number(request.POST.get('capital_hidden', 0)),
             'count_stocks': count_stocks,
         }
 

@@ -5,8 +5,9 @@ from datetime import datetime, timedelta
 from .models import Company, User, History
 from django.shortcuts import redirect
 from django.conf import settings
+from .common import fomat_number
 
-
+# Xử lí hiển thị kết quả các giao dịch mua bán
 def stock_information_owned(request):
     # Kiểm tra session time out        
     if request.session.get('last_touch',"") != "" :
@@ -31,8 +32,15 @@ def stock_information_owned(request):
     # Lấy ra thông tin user từ DB
     user = User.objects.filter(user_name=username)
     capital_user = 0
+    profit_user = 0
+    capital_original_user = 0
+    e = 0
     if len(user) != 0:
         capital_user = user[0].capital
+        capital_original_user = user[0].capital_original
+        if user[0].profit != None:
+            profit_user = user[0].profit
+            e = round((profit_user/capital_original_user) *100, 2)
     # Thực hiện xóa các điều kiện tìm kiếm (nếu có) ở MH danh sách hiện tại trên session
     if request.session.get('company_value','') != "":
         del request.session['company_value'] 
@@ -51,15 +59,24 @@ def stock_information_owned(request):
         for i in range(len(company_list_current)):
             if company_list_current[i].stocks == company.stock:
                 company.stock = company_list_current[i].stocks
-                company.capital_end = company_list_current[i].current_price
-                company.e = round(((company.capital_end-company.capital_start)/company.capital_start) *100, 2)
+                company.capital_end = fomat_number(company_list_current[i].current_price)
+                company.e = round(((company_list_current[i].current_price-company.capital_start)/company.capital_start) *100, 2)
         id+=1
     # Tạo template hiển thị
     template = loader.get_template('stocks/stock_information_owned.html')
     # Tạo 1 context set các giá trị hiển thị ban đầu khi tới MH Bán cổ phiếu
-    context = {
-        'company_list_view': company_list_db,
-        'capital_user': capital_user,
-    }
+    context = {}
+    if profit_user != 0 and e != 0:
+        context = {
+            'company_list_view': company_list_db,
+            'capital_user': fomat_number(capital_user),
+            'profit_user': fomat_number(profit_user),
+            'e': e
+        }
+    else:
+        context = {
+            'company_list_view': company_list_db,
+            'capital_user': fomat_number(capital_user),
+        }
     
     return HttpResponse(template.render(context, request))

@@ -3,6 +3,7 @@ from django.template import loader
 from datetime import datetime, timedelta
 from .models import Company, User
 from django.conf import settings
+from .common import fomat_number
 
 # Xử lí hiển thị MH danh sách công ty
 def index(request):
@@ -33,6 +34,8 @@ def index(request):
         # Thay đổi lại thuộc tính id dùng hiển thị STT
         for index in range(len(company_list_db)):
             company_list_db[index].id=index+1
+            company_list_db[index].company_value=fomat_number(company_list_db[index].company_value)
+            company_list_db[index].current_price=fomat_number(company_list_db[index].current_price)
         context = {}
         avatar = "1"
         # Lấy ra thông tin user từ DB

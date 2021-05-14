@@ -38,7 +38,7 @@
             };
             var index_current_price = 0;
             var index= 10;
-            capital.value = "";
+            capital_value = "";
             // Tìm vị trí của giá tương ứng vs cổ phiếu đã chọn
             // Xác định đoạn bắt đầu của giá cổ phiếu trong danh sách (là 1 chuỗi string) giá cổ phiếu 
             while ( index<list_current_price.length) {
@@ -52,11 +52,12 @@
                         break;
                     }
                     // Cắt ra đoạn chứa giá của cố phiếu đã chọn
-                    capital.value += list_current_price[index];
+                    capital_value += list_current_price[index];
                 }
                 index++;
             };
-            capital_hidden.value = capital.value;
+            capital.value = formatNumber(capital_value)
+            capital_hidden.value = capital_value;
             // Lấy ra số lượng cổ phiếu ứng với số lượng cổ phiếu user sở hữu tối đa có thể bán
             for (var i = 1; i<list_count_stocks.length-1; i++) {
                 if (list_count_stocks[i] == ",") {
@@ -68,6 +69,10 @@
                 }
             }
             count_stocks.value = parseInt(index_count_stock_in_list_start);
+        }
+        function formatNumber(num) {
+            str =  num.toString().replace(".", ',')
+            return str.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
         }
     </script>
 </head>
@@ -89,12 +94,12 @@
                 <table class="table table-bordered">
                     <tr>
                         <th>Số dư hiện tại</th>
-                        <td colspan="2">{{capital_user}}(VNĐ)</td>
+                        <td colspan="2">{{capital_user}} (VNĐ)</td>
                     </tr>
                     <tr>
                         <th>Mã cổ phiếu</th>
-                        <td>Giá</td>
-                        <td>Số lượng</td>
+                        <td><b>Giá (VNĐ)</b></td>
+                        <td><b>Số lượng</b></td>
                     </tr>
                     <tr>
                         <td>

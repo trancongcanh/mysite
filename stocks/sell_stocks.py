@@ -6,6 +6,7 @@ from .models import Company, User, History
 from django.shortcuts import redirect
 from django.conf import settings
 import math
+from .common import fomat_number
 
 # Xử lí bán cổ phiếu
 def sell_stocks(request):
@@ -32,8 +33,13 @@ def sell_stocks(request):
     # Lấy ra thông tin user từ DB
     user = User.objects.filter(user_name=username)
     capital_user = 0
+    capital_original_user = 0
+    profit_user = 0
     if len(user) != 0:
         capital_user = user[0].capital
+        capital_original_user = user[0].capital_original
+        if user[0].profit != None:
+            profit_user = user[0].profit
     # Thực hiện xóa các điều kiện tìm kiếm (nếu có) ở MH danh sách hiện tại trên session
     if request.session.get('company_value','') != "":
         del request.session['company_value'] 
@@ -65,7 +71,7 @@ def sell_stocks(request):
         'list_count_stocks': list_count_stocks,
         'list_current_price': list_current_price,
         'list_stocks': list_stocks,
-        'capital_user': capital_user,
+        'capital_user': fomat_number(capital_user),
     }
     # Xử lí khi thực hiện giao dịch
     if request.method =='POST':
@@ -87,11 +93,12 @@ def sell_stocks(request):
         if int(count_stocks) <= count_stocks_db and count_stocks > 0:
             e = (capital_hidden/float(capital_start))*100
             update_history_buy = History.objects.filter(stock=stock_view, managed_by=username, transaction_status=1).update(end_date=datetime.now(), count_stocks=count_stocks_db-count_stocks, capital_end=capital_hidden, transaction_status= transaction_status, e=e)
-            update_capital_user = User.objects.filter(user_name=username).update(capital=int(capital_user+math.ceil(count_stocks*capital_hidden)))
+            profit_user = profit_user + (capital_hidden - float(capital_start))*count_stocks
+            update_capital_user = User.objects.filter(user_name=username).update(capital=int(capital_user+math.ceil(count_stocks*capital_hidden)), profit=profit_user)
             capital_user = int(capital_user+math.ceil(count_stocks*capital_hidden))
             message = "Giao dịch thành công"
         else:
-            message = "Bán quá số lượng sở hữu"
+            message = "Giao dịch không thành công"
         # Lấy ra tất cả cố phiếu mà user nắm giữ trong db
         company_list_db = History.objects.order_by('capital_start').filter(managed_by=username, transaction_status=1)
         # Lấy ra danh sách cổ phiếu cập nhật của ngày hiện tại
@@ -113,7 +120,7 @@ def sell_stocks(request):
             'list_count_stocks': list_count_stocks,
             'list_current_price': list_current_price,
             'list_stocks': list_stocks,
-            'capital_user': capital_user,
+            'capital_user': fomat_number(capital_user),
             'message': message,
             'capital': 0,
             'count_stocks': 0,

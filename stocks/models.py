@@ -50,6 +50,10 @@ class User(models.Model):
     email = models.TextField()
     # Số điện thoại
     phone = models.IntegerField()
+    # Vốn ban đầu(cố định)
+    capital_original = models.IntegerField()
+    # Lợi nhuận 
+    profit = models.IntegerField()
 
 #Tạo bảng lịch sử giao dịch
 class History(models.Model):

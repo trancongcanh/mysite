@@ -21,7 +21,7 @@ def signup(request):
         message = ""
         # Thực hiện sign up thông tin user và CSDL, kiểm tra có sign up thành công hay không và gửi câu thông báo tương ứng
         if (user_name_views != "" and password_views != "" and capital_view != ""):
-            user = User.objects.update_or_create(user_name=user_name_views, password=password_views, capital=capital_view, email=email_view, phone=password_views)
+            user = User.objects.update_or_create(user_name=user_name_views, password=password_views, capital=capital_view, email=email_view, phone=password_views, capital_original=capital_view)
             message = "Đăng kí thành công, vui lòng quay về trang chủ để login"
         else:
             message = "Đăng kí không thành công, vui lòng nhập đầy đủ username và password"

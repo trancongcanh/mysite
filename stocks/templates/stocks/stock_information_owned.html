@@ -91,7 +91,7 @@
                     <tr>
                         <th>STT</th>
                         <th>Mã cổ phiếu</th>
-                        <th>Giá mới nhất</th>
+                        <th>Giá mới nhất (VNĐ)</th>
                         <th>Biến động</th>
                     </tr>
                     {% if company_list_view%}
@@ -118,14 +118,28 @@
                         <th colspan="3" style="text-align: center;">Tổng kết</th>
                     </tr>
                     <tr>
-                        <th>Tổng vốn (VNĐ)</th>
+                        <th>Tổng vốn dư (VNĐ)</th>
                         <th>Lãi (VNĐ)</th>
                         <th>Lãi/Lỗ (%)</th>
                     </tr>
                     <tr style = "background: #ffffff">
                         <td>{{capital_user}} </td>
-                        <td></td>
-                        <td></td>
+                        {% if profit_user %}
+                            {% if profit_user >= 0 %}
+                                <td style="color: greenyellow;">{{profit_user}}</td>
+                            {% else %}
+                                <td style="color: crimson;">{{profit_user}}</td>
+                            {% endif%}
+                        {% else %}
+                            <td colspan="2">Chưa có giao dịch nào</td>
+                        {% endif%}
+                        {% if e %}
+                            {% if e >= 0 %}
+                                <td style="color: greenyellow;">{{e}}</td>
+                            {% else %}
+                                <td style="color: crimson;">{{e}}</td>
+                            {% endif%}
+                        {% endif%}
                     </tr>
                 </table>
                 <!-- Vùng thông báo lỗi -->
