@@ -8,6 +8,7 @@ from .common import converToInt, converToInt2
 
 # Xử lí upload file
 def profile_upload(request):
+        print(pd.__version__)
     # try:
         # Kiểm tra session time out        
         if request.session.get('last_touch',"") != "" :
