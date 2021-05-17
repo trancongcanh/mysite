@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from .models import Company
 from django.shortcuts import redirect
 from django.conf import settings
-import pandas as pd
+# import pandas as pd
 from .common import converToInt, converToInt2
 
 # Xử lí upload file
